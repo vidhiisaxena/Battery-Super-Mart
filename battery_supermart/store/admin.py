@@ -7,7 +7,8 @@ class ReviewInline(admin.TabularInline):
     readonly_fields = ('name', 'email', 'content', 'created_at')
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ['name', 'brand', 'category', 'mrp', 'with_old_price', 'without_old_price']
+    prepopulated_fields = {'slug': ('name',)}
+    list_display = ['name', 'brand', 'category', 'mrp', 'price_with_old_battery', 'price_without_old_battery']
     search_fields = ['name', 'brand', 'model']
     list_filter = ['category', 'brand', 'is_best_seller']
     inlines = [ReviewInline]

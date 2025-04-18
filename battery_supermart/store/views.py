@@ -6,7 +6,30 @@ def home(request):
 
 def products_view(request):
     products = Product.objects.all()
-    return render(request, 'products.html', {'products': products})
+
+    # Get filter values from query parameters
+    selected_brands = request.GET.getlist('brand')
+    selected_categories = request.GET.getlist('category')
+
+    # Apply filters if selected
+    if selected_brands:
+        products = products.filter(brand__in=selected_brands)
+    if selected_categories:
+        products = products.filter(category__in=selected_categories)
+
+    # Get unique brands and categories from DB for filters
+    all_brands = Product.objects.values_list('brand', flat=True).distinct()
+    all_categories = Product.objects.values_list('category', flat=True).distinct()
+
+    context = {
+        'products': products,
+        'brands': all_brands,
+        'categories': all_categories,
+        'selected_brands': selected_brands,
+        'selected_categories': selected_categories,
+    }
+    return render(request, 'products.html', context)
+
 
 def product_detail(request, slug):
     product = get_object_or_404(Product, slug=slug)
