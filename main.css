@@ -1,6 +1,6 @@
 body{
     font-family:"Inter", sans-serif;
-    background-color: #f8f9fa;
+    background-color: #f8f9fa !important;
 }
 .whatsapp-btn {
     position: fixed;
@@ -29,4 +29,11 @@ body{
   .carousel-inner .battimg {
     height: 500px !important ;
   }
+}
+#batteryfinder {
+    padding-top: 100px !important;
+    padding-bottom: 100px !important;
+    background-color: #264436 !important;
+    margin-top: 50px;
+    color:#f8f9fa
 }
