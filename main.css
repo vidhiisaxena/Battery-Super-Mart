@@ -14,3 +14,19 @@ body{
     font-size: 18px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
+#carouselExampleAutoplaying .battimg{
+    object-fit:fill;
+    object-position: center;
+    height: 100vh;
+    overflow: hidden;
+}
+@media (max-width: 800px) {
+  .carousel-inner .battimg {
+    height: 300px !important ;
+  }
+}
+@media (min-width: 961px) {
+  .carousel-inner .battimg {
+    height: 500px !important ;
+  }
+}
