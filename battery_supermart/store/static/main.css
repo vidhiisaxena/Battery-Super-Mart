@@ -30,7 +30,7 @@ body{
     height: 500px !important ;
   }
 }
-#batteryfinder {
+#batteryfinder, #working{
     padding-top: 100px !important;
     padding-bottom: 100px !important;
     background-color: #264436 !important;
@@ -38,5 +38,37 @@ body{
     color:#f8f9fa
 }
 .catitem{
-    padding-left: 4%;
+  padding-left: 4%;
+}
+.custom-card {
+  background-color: #ffffff10;
+  border-radius: 15px;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(6px);
+}
+
+.custom-card:hover {
+  transform: translateY(-8px);
+  color: #f8f9fa;
+  background-color: #ffffff15;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+.text-muted:hover{
+  color: #f8f9fa;
+}
+
+.emoji {
+  transition: transform 0.3s ease;
+}
+
+.custom-card:hover .emoji {
+  transform: scale(1.3);
+}
+.about-us h2 {
+  color: #333;
+}
+
+.about-us p {
+  font-size: 1.05rem;
+  line-height: 1.7;
 }
