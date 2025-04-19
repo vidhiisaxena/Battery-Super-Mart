@@ -211,10 +211,10 @@ body.light-mode {
           <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown">Products</a>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="{% url 'products' %}">All Products</a></li>
-            <li><a class="dropdown-item" href="#">Best Sellers</a></li>
-            <li><a class="dropdown-item" href="?brand=Exide">Shop by Brand</a></li>
-            <li><a class="dropdown-item" href="?category=Car">Shop by Category</a></li>
-          </ul>
+            <li><a class="dropdown-item" href="{% url 'home' %}#BestSeller">Best Seller</a></li>
+            <li><a class="dropdown-item" href="{% url 'home' %}#CarModel">Shop by Car Model</a></li>
+            <li><a class="dropdown-item" href="{% url 'home' %}#by-brand">Shop by Brand</a></li>
+        </ul>
         </li>
         <li class="nav-item"><a class="nav-link" href="#">Categories</a></li>
         <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>

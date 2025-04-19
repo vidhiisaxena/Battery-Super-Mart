@@ -121,26 +121,27 @@
             <a class="nav-link active" aria-current="page" href="#batteryfinder">Categories</a>
             </li>
             <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="./products.html" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="nav-link dropdown-toggle" href="{% url 'products' %}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Products
             </a>
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#BestSeller">Best Seller</a></li>
-                <li><a class="dropdown-item" href="#CarModel">Shop by Car Model</a></li>
-                <li><a class="dropdown-item" href="#by-brand">Shop by Brand</a></li>
-            </ul>
+              <li><a class="dropdown-item" href="{% url 'products' %}">All Products</a></li>
+              <li><a class="dropdown-item" href="{% url 'home' %}#BestSeller">Best Seller</a></li>
+              <li><a class="dropdown-item" href="{% url 'home' %}#CarModel">Shop by Car Model</a></li>
+              <li><a class="dropdown-item" href="{% url 'home' %}#by-brand">Shop by Brand</a></li>
+          </ul>
             </li>
             <li class="nav-item">
-            <a class="nav-link" href="./contact.html">Contact Us</a>
+            <a class="nav-link" href="#">Contact Us</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" aria-disabled="true">
               </a>
             </li>
         </ul>
-        <form class="d-flex" role="search">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
+        <form class="d-flex mb-4" method="GET" action="{% url 'products' %}">
+          <input class="form-control me-2" type="search" name="q" placeholder="Search" value="{{ query|default:'' }}">
+          <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
         <ul>
           <div class="d-flex align-items-center ms-auto">

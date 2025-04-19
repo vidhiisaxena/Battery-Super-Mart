@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,7 +19,7 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
     <nav class="navbar navbar-expand-lg sticky-top">
     <div class="container-fluid">
-        <a class="navbar-brand" href="./main.html">
+        <a class="navbar-brand" href="{% url 'home' %}">
             <img src="../static/img/Battery logo.png" alt="Logo" width="60" height="55" class="d-inline-block">
             <span class="fw-bolder text-success">Battery Supermart</span>
         </a>
@@ -31,28 +32,28 @@
             <a class="nav-link active" aria-current="page" href="#batteryfinder">Categories</a>
             </li>
             <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="./products.html" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="nav-link dropdown-toggle" href="{% url 'products' %}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Products
             </a>
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="./products.html">All Products</a></li>
-                <li><a class="dropdown-item" href="./main.html#BestSeller">Best Seller</a></li>
-                <li><a class="dropdown-item" href="./main.html#CarModel">Shop by Car Model</a></li>
-                <li><a class="dropdown-item" href="#/.main.html#by-brand">Shop by Brand</a></li>
+                <li><a class="dropdown-item" href="{% url 'products' %}">All Products</a></li>
+                <li><a class="dropdown-item" href="{% url 'home' %}#BestSeller">Best Seller</a></li>
+                <li><a class="dropdown-item" href="{% url 'home' %}#CarModel">Shop by Car Model</a></li>
+                <li><a class="dropdown-item" href="{% url 'home' %}#by-brand">Shop by Brand</a></li>
             </ul>
             </li>
             <li class="nav-item">
-            <a class="nav-link" href="./contact.html">Contact Us</a>
+            <a class="nav-link" href="{% url 'contact' %}">Contact Us</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" aria-disabled="true">
               </a>
             </li>
         </ul>
-        <form class="d-flex" role="search">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
+        <form class="d-flex mb-4" method="GET" action="{% url 'products' %}">
+          <input class="form-control me-2" type="search" name="q" placeholder="Search" value="{{ query|default:'' }}">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>               
         <ul>
           <div class="d-flex align-items-center ms-auto">
             <label class="form-check-label me-2" for="darkModeToggle">Dark Mode</label>
@@ -104,7 +105,7 @@
           <li>✔ 36 to 72 Month Warranty</li>
           <li>✔ 100% Genuine Products</li>
         </ul>
-        <a href="./products.html" class="btn btn-success mt-3">Browse Products</a>
+        <a href="{% url 'products' %}" class="btn btn-success mt-3">Browse Products</a>
         <img src="..\static\img\Battery Super.jpg"  width="250px" height="250px">
       </div>
       </div>
@@ -112,32 +113,38 @@
   </div>
 </section>
 
-<!--Car Battery Finder Section-->
+<!-- Car Battery Finder Section -->
 <section id="batteryfinder" class="py-10 bg-light text-center">
   <div class="container-fluid">
     <h1 class="display-5 fw-bold">Find the Right Battery for Your Car</h1>
     <p class="lead">Search by car brand or battery model</p>
-    <div class="row justify-content-center mt-4">
-      <div class="col-md-3">
-        <select class="form-select">
-          <option>Select Car Brand</option>
-          <option>Hyundai</option>
-          <option>Maruti</option>
-        </select>
+
+    <form method="GET" action="{% url 'products' %}">
+      <div class="row justify-content-center mt-4">
+        <div class="col-md-3">
+          <select class="form-select" name="brand">
+            <option value="">Select Car Brand</option>
+            {% for brand in brands %}
+              <option value="{{ brand }}">{{ brand }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-md-3">
+          <select class="form-select" name="model">
+            <option value="">Select Car Model</option>
+            {% for model in models %}
+              <option value="{{ model }}">{{ model }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-md-2">
+          <button class="btn btn-success w-100" type="submit">Search</button>
+        </div>
       </div>
-      <div class="col-md-3">
-        <select class="form-select">
-          <option>Select Car Model</option>
-          <option>i20</option>
-          <option>Swift</option>
-        </select>
-      </div>
-      <div class="col-md-2">
-        <button class="btn btn-success w-100">Search</button>
-      </div>
-    </div>
+    </form>    
   </div>
 </section>
+
 <!--Category items-->
 <section class="py-4 shadow-sm">
   <div class="container">
@@ -238,57 +245,28 @@
 
 <!--Best seller-->
 <section id="BestSeller" class="py-10 shadow-sm">
-<div class="container">
-  <h4 class="fw-bold pb-3 pt-5">BEST SELLING BATTERIES</h4>
+  <div class="container">
+    <h4 class="fw-bold pb-3 pt-5">BEST SELLING BATTERIES</h4>
     <div class="border-top border-danger mb-3" style="width: 120px;"></div>
-  
-  <div class="row g-4">
-   <div class="col-6 col-sm-6 col-md-4 col-lg-3">
-      <div class="card h-80 shadow-sm">
-        <img src="http://www.batterybhai.com/common/home_images/amaron-42b20l.jpg" class="object-fit-contain border rounded card-img-top" alt="Battery 1">
-        <div class="card-body text-center">
-          <h5 class="card-title">Exide Battery</h5>
-          <p class="card-text">Long-lasting, Maintenance-free</p>
-          <strong class="d-block mb-2">₹4,999</strong>
-          <a href="#" class="btn btn-primary btn-sm">View Details</a>
+
+    <div class="row g-4">
+      {% for product in best_sellers %}
+      <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+        <div class="card h-80 shadow-sm">
+          <img src="{{ product.image.url }}" class="object-fit-contain border rounded card-img-top" alt="{{ product.name }}">
+          <div class="card-body text-center">
+            <h5 class="card-title">{{ product.name }}</h5>
+            <p class="card-text">{{ product.description|truncatechars:40 }}</p>
+            <strong class="d-block mb-2">₹{{ product.price_without_old_battery }}</strong>
+            <a href="{% url 'product_detail' slug=product.slug %}" class="btn btn-primary btn-sm">View Details</a>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="col-6 col-sm-6 col-md-4 col-lg-3">
-      <div class="card h-80 shadow-sm">
-        <img src="http://www.batterybhai.com/common/home_images/amaron-42b20l.jpg" class="object-fit-contain border rounded card-img-top" alt="Battery 1">
-        <div class="card-body text-center">
-          <h5 class="card-title">Exide Battery</h5>
-          <p class="card-text">Long-lasting, Maintenance-free</p>
-          <strong class="d-block mb-2">₹4,999</strong>
-          <a href="#" class="btn btn-primary btn-sm">View Details</a>
-        </div>
-      </div>
-    </div>
-    <div class="col-6 col-sm-6 col-md-4 col-lg-3">
-      <div class="card h-80 shadow-sm">
-        <img src="http://www.batterybhai.com/common/home_images/amaron-42b20l.jpg" class="object-fit-contain border rounded card-img-top" alt="Battery 1">
-        <div class="card-body text-center">
-          <h5 class="card-title">Exide Battery</h5>
-          <p class="card-text">Long-lasting, Maintenance-free</p>
-          <strong class="d-block mb-2">₹4,999</strong>
-          <a href="#" class="btn btn-primary btn-sm">View Details</a>
-        </div>
-      </div>
-    </div>
-    <div class="col-6 col-sm-6 col-md-4 col-lg-3">
-      <div class="card h-80 shadow-sm">
-        <img src="http://www.batterybhai.com/common/home_images/amaron-42b20l.jpg" class="object-fit-contain border rounded card-img-top" alt="Battery 1">
-        <div class="card-body text-center">
-          <h5 class="card-title">Exide Battery</h5>
-          <p class="card-text">Long-lasting, Maintenance-free</p>
-          <strong class="d-block mb-2">₹4,999</strong>
-          <a href="#" class="btn btn-primary btn-sm">View Details</a>
-        </div>
-      </div>
+      {% empty %}
+        <p>No best sellers available right now.</p>
+      {% endfor %}
     </div>
   </div>
-</div>
 </section>
 
 <!--Best Seller-->

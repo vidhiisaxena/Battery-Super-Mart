@@ -2,10 +2,29 @@ from django.shortcuts import render, get_object_or_404
 from .models import Product, Review
 
 def home(request):
-    return render(request, 'home.html')
+    brands = Product.objects.values_list('brand', flat=True).distinct()
+    models = Product.objects.values_list('model', flat=True).distinct()
+    best_sellers = Product.objects.filter(is_best_seller=True)
+
+    return render(request, 'main.html', {
+        'brands': brands,
+        'models': models,
+        'best_sellers': best_sellers,
+    })
+
+from django.db.models import Q
 
 def products_view(request):
     products = Product.objects.all()
+
+    # Get search query
+    query = request.GET.get('q')
+    if query:
+        products = products.filter(
+            Q(name__icontains=query) |
+            Q(brand__icontains=query) |
+            Q(model__icontains=query)
+        )
 
     # Get filter values from query parameters
     selected_brands = request.GET.getlist('brand')
@@ -27,6 +46,7 @@ def products_view(request):
         'categories': all_categories,
         'selected_brands': selected_brands,
         'selected_categories': selected_categories,
+        'query': query,
     }
     return render(request, 'products.html', context)
 
