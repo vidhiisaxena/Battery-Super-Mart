@@ -1,6 +1,6 @@
 body{
     font-family:"Inter", sans-serif;
-    background-color: #f8f9fa !important;
+    background-color: #f8f9fa;
 }
 .whatsapp-btn {
     position: fixed;
@@ -72,3 +72,68 @@ body{
   font-size: 1.05rem;
   line-height: 1.7;
 }
+
+/* Light Mode Styles */
+.light-mode {
+  background-color: #f8f9fa; /* Light gray */
+  color: #212529;
+}
+
+.light-mode .navbar {
+  background-color: #ffffff;
+  color: #212529;
+}
+
+.light-mode .card {
+  background-color: #ffffff;
+  color: #212529;
+}
+
+/* Dark Mode Styles */
+.dark-mode {
+  background-color: #121212; /* Dark background */
+  color: #f8f9fa;
+}
+
+.dark-mode .navbar {
+  background-color: #1f1f1f;
+  color: #f8f9fa;
+}
+
+.dark-mode .navbar a,
+.dark-mode .nav-link {
+  color: #f8f9fa !important;
+}
+
+.dark-mode .card {
+  background-color: #1e1e1e;
+  color: #f8f9fa;
+}
+
+
+.navbar .form-check {
+  display: flex;
+  align-items: center;
+  color: inherit;
+}
+
+.form-check-input.custom-switch {
+  width: 2.5em;
+  height: 1.5em;
+  cursor: pointer;
+  transition: box-shadow 0.3s ease-in-out;
+}
+.form-check-input.custom-switch {
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+.form-check-input.custom-switch:checked {
+  background-color: #28a745; 
+  border-color: #28a745;
+  box-shadow: 0 0 10px 3px rgba(40, 167, 69, 0.5); 
+}
+
+
+.form-check-input.custom-switch:focus {
+  box-shadow: 0 0 10px 3px rgba(40, 167, 69, 0.5); 
+}
+

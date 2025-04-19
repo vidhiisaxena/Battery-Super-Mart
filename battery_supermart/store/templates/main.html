@@ -12,11 +12,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="light-mode" id="modeWrapper">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary sticky-top">
+    <nav class="navbar navbar-expand-lg sticky-top">
     <div class="container-fluid">
         <a class="navbar-brand" href="./home.html">
             <img src="../static/img/Battery logo.png" alt="Logo" width="60" height="55" class="d-inline-block">
@@ -44,13 +44,19 @@
             <a class="nav-link" href="./contact.html">Contact Us</a>
             </li>
             <li class="nav-item">
-            <a class="nav-link" aria-disabled="true"></a>
+              <a class="nav-link" aria-disabled="true">
+              </a>
             </li>
         </ul>
         <form class="d-flex" role="search">
             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
+        <ul>
+          <button class="btn btn-outline-light mode-toggle" id="modeToggle">
+                  🌙 Dark Mode
+           </button>
+        </ul>
         </div>
     </div>
 </nav>
@@ -185,7 +191,7 @@
 </section>
 
 <!--Shop for car batteries by make-->
-<section id="CarModel" class="py-4 bg-white shadow-sm">
+<section id="CarModel" class="py-4 shadow-sm">
   <div class="container">
     <h4 class="fw-bold mb-3">SHOP FOR CAR BATTERIES BY MAKE</h4>
     <div class="border-top border-danger mb-3" style="width: 120px;"></div>
@@ -227,9 +233,9 @@
 </section>
 
 <!--Best seller-->
-<section id="BestSeller" class="py-10 bg-white shadow-sm">
+<section id="BestSeller" class="py-10 shadow-sm">
 <div class="container">
-  <h4 class="fw-bold mb-3">BEST SELLING BATTERIES</h4>
+  <h4 class="fw-bold pb-3 pt-5">BEST SELLING BATTERIES</h4>
     <div class="border-top border-danger mb-3" style="width: 120px;"></div>
   
   <div class="row g-4">
@@ -282,7 +288,7 @@
 </section>
 
 <!--Best Seller-->
-<section id="by-brand" class="py-10 bg-white shadow-sm">
+<section id="by-brand" class="py-10 shadow-sm">
 <div class="container">
   <h4 class="fw-bold mb-3 pt-5">BEST SELLING INVERTER BATTERIES</h4>
     <div class="border-top border-danger mb-3" style="width: 120px;"></div>
@@ -449,6 +455,20 @@ class="whatsapp-btn" target="_blank">
         }
       ]
     });
+  });
+  const toggleBtn = document.getElementById("modeToggle");
+  const body = document.getElementById("modeWrapper");
+
+  toggleBtn.addEventListener("click", () => {
+    body.classList.toggle("dark-mode");
+    body.classList.toggle("light-mode");
+
+    // Update button text/icon
+    if (body.classList.contains("dark-mode")) {
+      toggleBtn.innerHTML = "☀️ Light Mode";
+    } else {
+      toggleBtn.innerHTML = "🌙 Dark Mode";
+    }
   });
 </script>
 </body>
