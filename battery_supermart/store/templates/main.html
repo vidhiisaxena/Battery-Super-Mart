@@ -18,7 +18,7 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
     <nav class="navbar navbar-expand-lg sticky-top">
     <div class="container-fluid">
-        <a class="navbar-brand" href="./home.html">
+        <a class="navbar-brand" href="./main.html">
             <img src="../static/img/Battery logo.png" alt="Logo" width="60" height="55" class="d-inline-block">
             <span class="fw-bolder text-success">Battery Supermart</span>
         </a>
@@ -53,15 +53,18 @@
             <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
         <ul>
-          <button class="btn btn-outline-light mode-toggle" id="modeToggle">
-                  🌙 Dark Mode
-           </button>
+          <div class="d-flex align-items-center ms-auto">
+            <label class="form-check-label me-2" for="darkModeToggle">Dark Mode</label>
+            <div class="form-check form-switch m-0">
+              <input class="form-check-input custom-switch" type="checkbox" id="darkModeToggle">
+            </div>
+          </div>
         </ul>
         </div>
     </div>
 </nav>
 <!--Carousel-->
-<section class="py-10 bg-light mt-7">
+<section class="py-10 mt-7">
   <div class="container-fluid">
     <div class="row align-items-start">
     <div class="col-md-9">
@@ -135,7 +138,7 @@
   </div>
 </section>
 <!--Category items-->
-<section class="py-4 bg-white shadow-sm">
+<section class="py-4 shadow-sm">
   <div class="container">
     <h4 class="fw-bold mb-3">SHOP BY CATEGORY</h4>
     <div class="border-top border-danger mb-3" style="width: 120px;"></div>
@@ -353,7 +356,7 @@
         <div class="card h-100 text-center p-4 shadow custom-card border-0">
           <div class="emoji fs-1 mb-3">🔍</div>
           <h5 class="fw-bold">Search Car</h5>
-          <p class="text-muted">Select your car to find the right battery.</p>
+          <div class="text-muted">Select your car to find the right battery.</div>
         </div>
       </div>
 
@@ -362,7 +365,7 @@
         <div class="card h-100 text-center p-4 shadow custom-card border-0">
           <div class="emoji fs-1 mb-3">⚡</div>
           <h5 class="fw-bold">Compare Options</h5>
-          <p class="text-muted">Choose based on features & price.</p>
+          <div class="text-muted">Choose based on features & price.</div>
         </div>
       </div>
 
@@ -371,7 +374,7 @@
         <div class="card h-100 text-center p-4 shadow custom-card border-0">
           <div class="emoji fs-1 mb-3">💬</div>
           <h5 class="fw-bold">Contact Us</h5>
-          <p class="text-muted">Chat to confirm and schedule delivery.</p>
+          <div class="text-muted">Chat to confirm and schedule delivery.</div>
         </div>
       </div>
 
@@ -380,7 +383,7 @@
 </section>
 
 <!--About us-->
-<section class="about-us py-5" style="background-color: #f8f9fa;">
+<section class="about-us py-5">
   <div class="container">
     <div class="row align-items-center g-5">
       
@@ -456,19 +459,11 @@ class="whatsapp-btn" target="_blank">
       ]
     });
   });
-  const toggleBtn = document.getElementById("modeToggle");
-  const body = document.getElementById("modeWrapper");
 
-  toggleBtn.addEventListener("click", () => {
-    body.classList.toggle("dark-mode");
-    body.classList.toggle("light-mode");
-
-    // Update button text/icon
-    if (body.classList.contains("dark-mode")) {
-      toggleBtn.innerHTML = "☀️ Light Mode";
-    } else {
-      toggleBtn.innerHTML = "🌙 Dark Mode";
-    }
+  document.getElementById("darkModeToggle").addEventListener("change", function () {
+  document.body.classList.toggle("dark-mode");
+    const label = document.getElementById("toggleLabel");
+    label.textContent = this.checked ? "Light Mode" : "Dark Mode";
   });
 </script>
 </body>
