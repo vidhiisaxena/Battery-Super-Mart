@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Product, Review
+from .models import Product, Review, CarModel, CarBrand
+
 
 def home(request):
     brands = Product.objects.values_list('brand', flat=True).distinct()
@@ -17,7 +18,7 @@ from django.db.models import Q
 def products_view(request):
     products = Product.objects.all()
 
-    # Get search query
+    # Search query
     query = request.GET.get('q')
     if query:
         products = products.filter(
@@ -26,28 +27,39 @@ def products_view(request):
             Q(model__icontains=query)
         )
 
-    # Get filter values from query parameters
+    # Brand & category filters
     selected_brands = request.GET.getlist('brand')
     selected_categories = request.GET.getlist('category')
 
-    # Apply filters if selected
     if selected_brands:
         products = products.filter(brand__in=selected_brands)
     if selected_categories:
         products = products.filter(category__in=selected_categories)
+    
 
-    # Get unique brands and categories from DB for filters
+    # Filter by car model (using slugs now!)
+    selected_car_model_slugs = [slug for slug in request.GET.getlist('car_model') if slug.strip()]
+    if selected_car_model_slugs:
+        products = products.filter(recommended_for__slug__in=selected_car_model_slugs).distinct()
+
+    # Get all available filter options
     all_brands = Product.objects.values_list('brand', flat=True).distinct()
     all_categories = Product.objects.values_list('category', flat=True).distinct()
+
+    # Fetch car brands with related models
+    car_brands = CarBrand.objects.prefetch_related('models').all()
 
     context = {
         'products': products,
         'brands': all_brands,
         'categories': all_categories,
+        'car_brands': car_brands,
         'selected_brands': selected_brands,
         'selected_categories': selected_categories,
+        'selected_car_models': selected_car_model_slugs,
         'query': query,
     }
+
     return render(request, 'products.html', context)
 
 

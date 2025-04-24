@@ -239,26 +239,46 @@ body.light-mode {
       <form method="GET" class="bg-white p-3 rounded shadow-sm">
         <h5 class="filter-heading">Filter by Brand</h5>
         {% for brand in brands %}
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" name="brand" value="{{ brand }}" id="brand{{ brand }}"
-          {% if brand in selected_brands %}checked{% endif %}>
-          <label class="form-check-label" for="brand{{ brand }}">{{ brand }}</label>
-        </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="brand" value="{{ brand }}" id="brand{{ brand }}"
+            {% if brand in selected_brands %}checked{% endif %}>
+            <label class="form-check-label" for="brand{{ brand }}">{{ brand }}</label>
+          </div>
         {% endfor %}
-
+      
         <h5 class="filter-heading">Category</h5>
         {% for category in categories %}
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" name="category" value="{{ category }}" id="cat{{ category }}"
-          {% if category in selected_categories %}checked{% endif %}>
-          <label class="form-check-label" for="cat{{ category }}">{{ category }}</label>
-        </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="category" value="{{ category }}" id="cat{{ category }}"
+            {% if category in selected_categories %}checked{% endif %}>
+            <label class="form-check-label" for="cat{{ category }}">{{ category }}</label>
+          </div>
         {% endfor %}
-
+      
+        <h5 class="filter-heading">Filter by Car Brand & Model</h5>
+        {% for brand in car_brands %}
+          <div class="mb-2">
+            <strong>{{ brand.name }}</strong>
+            <div class="ps-3">
+              {% for model in brand.models.all %}
+              {% if model.slug %}
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="car_model"
+                    value="{{ model.slug }}" id="model{{ model.id }}"
+                    {% if model.slug in selected_car_models %}checked{% endif %}>
+                <label class="form-check-label" for="model{{ model.id }}">{{ model.name }}</label>
+              </div>
+            {% endif %}
+            
+              {% endfor %}
+            </div>
+          </div>
+        {% endfor %}
+      
         <button type="submit" class="btn btn-primary w-100 mt-3">Apply Filters</button>
       </form>
     </aside>
-
+    
     <!-- Product Grid -->
     <main class="col-md-9">
       <div class="row g-4">
@@ -285,7 +305,20 @@ body.light-mode {
     </main>
   </div>
 </div>
+<script>
+  function showCarModels(brand) {
+    // Hide all car model groups first
+    document.querySelectorAll('.car-models').forEach(function(container) {
+      container.style.display = 'none';
+    });
 
+    // Show the car model checkboxes for the selected brand
+    const container = document.getElementById('car-models-for-' + brand);
+    if (container) {
+      container.style.display = 'block';
+    }
+  }
+</script>
 <!-- Footer -->
 <footer class="bg-dark text-white py-4 mt-5">
   <div class="container text-center">

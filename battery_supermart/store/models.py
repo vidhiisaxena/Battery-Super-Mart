@@ -6,6 +6,38 @@ CATEGORY_CHOICES = [
     ('Bike', 'Bike'),
     ('Inverter', 'Inverter'),
 ]
+# models.py
+
+class CarBrand(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+from django.utils.text import slugify
+
+class CarModel(models.Model):
+    name = models.CharField(max_length=100)
+    brand = models.ForeignKey(CarBrand, on_delete=models.CASCADE, related_name='models', default=1)
+    slug = models.SlugField(null=True, blank=True, unique=True)
+  # No unique yet!
+  # NEW FIELD
+
+    def __str__(self):
+        return f"{self.brand.name} - {self.name}"
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            base_slug = slugify(self.name)
+            slug_candidate = base_slug
+            counter = 1
+            while CarModel.objects.filter(slug=slug_candidate).exists():
+                slug_candidate = f"{base_slug}-{counter}"
+                counter += 1
+            self.slug = slug_candidate
+        super().save(*args, **kwargs)
+
+
 
 class Product(models.Model):
     name = models.CharField(max_length=200)
@@ -22,7 +54,7 @@ class Product(models.Model):
     coupon_code = models.CharField(max_length=100, blank=True)
     note = models.TextField(blank=True)
     description = models.TextField()
-    recommended_for = models.TextField(blank=True)
+    recommended_for = models.ManyToManyField(CarModel)
     is_best_seller = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):

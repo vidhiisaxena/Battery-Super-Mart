@@ -134,10 +134,19 @@
         <p>{{ product.description }}</p>
       {% endif %}
 
-      {% if product.recommended_for %}
-        <h5>Recommended For</h5>
-        <p>{{ product.recommended_for }}</p>
-      {% endif %}
+      {% if product.recommended_for.all %}
+  <h5>Recommended For</h5>
+  <ul>
+    {% for car_model in product.recommended_for.all %}
+      <li>
+        <a href="{% url 'products' %}?car_model={{ car_model.slug }}" class="text-decoration-none">
+          {{ car_model }}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
 
       {% if product.is_best_seller %}
         <span class="badge bg-success mb-3">Best Seller</span>
