@@ -245,7 +245,7 @@ body.light-mode {
             <label class="form-check-label" for="brand{{ brand }}">{{ brand }}</label>
           </div>
         {% endfor %}
-      
+    
         <h5 class="filter-heading">Category</h5>
         {% for category in categories %}
           <div class="form-check">
@@ -254,30 +254,40 @@ body.light-mode {
             <label class="form-check-label" for="cat{{ category }}">{{ category }}</label>
           </div>
         {% endfor %}
-      
+    
         <h5 class="filter-heading">Filter by Car Brand & Model</h5>
-        {% for brand in car_brands %}
-          <div class="mb-2">
-            <strong>{{ brand.name }}</strong>
-            <div class="ps-3">
-              {% for model in brand.models.all %}
-              {% if model.slug %}
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="car_model"
-                    value="{{ model.slug }}" id="model{{ model.id }}"
-                    {% if model.slug in selected_car_models %}checked{% endif %}>
-                <label class="form-check-label" for="model{{ model.id }}">{{ model.name }}</label>
+        
+        <!-- Car Brand Dropdown -->
+        <select id="car-brand" class="form-select" onchange="updateCarModels()">
+          <option value="">Select Car Brand</option>
+          {% for brand in car_brands %}
+            <option value="{{ brand.name }}" {% if brand.name in selected_brands %}selected{% endif %}>{{ brand.name }}</option>
+          {% endfor %}
+        </select>
+    
+        <!-- Car Models (Initially empty) -->
+        <div id="car-models-container">
+          <!-- Models will be dynamically added here based on selected car brand -->
+          {% for brand in car_brands %}
+            {% if brand.name in selected_brands %}
+              <div class="ps-3">
+                {% for model in brand.models.all %}
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="car_model"
+                           value="{{ model.slug }}" id="model{{ model.id }}"
+                           {% if model.slug in selected_car_models %}checked{% endif %}>
+                    <label class="form-check-label" for="model{{ model.id }}">{{ model.name }}</label>
+                  </div>
+                {% endfor %}
               </div>
             {% endif %}
-            
-              {% endfor %}
-            </div>
-          </div>
-        {% endfor %}
-      
+          {% endfor %}
+        </div>
+    
         <button type="submit" class="btn btn-primary w-100 mt-3">Apply Filters</button>
       </form>
     </aside>
+    
     
     <!-- Product Grid -->
     <main class="col-md-9">
@@ -306,19 +316,49 @@ body.light-mode {
     </main>
   </div>
 </div>
+<!-- JavaScript to dynamically update car models based on selected car brand -->
 <script>
-  function showCarModels(brand) {
-    // Hide all car model groups first
-    document.querySelectorAll('.car-models').forEach(function(container) {
-      container.style.display = 'none';
-    });
+  // Function to dynamically populate car models based on selected brand
+  function updateCarModels() {
+    var brand = document.getElementById('car-brand').value;
+    var carModelsContainer = document.getElementById('car-models-container');
+    carModelsContainer.innerHTML = '';  // Clear previous models
 
-    // Show the car model checkboxes for the selected brand
-    const container = document.getElementById('car-models-for-' + brand);
-    if (container) {
-      container.style.display = 'block';
+    if (brand) {
+      // Find the selected brand from the car_brands data
+      var selectedBrand = carBrands.find(brandObj => brandObj.name === brand);
+      
+      if (selectedBrand && selectedBrand.models.length > 0) {
+        let modelHtml = '<strong>Car Models:</strong><br>';
+        
+        // Loop through models of the selected brand and display as checkboxes
+        selectedBrand.models.forEach(model => {
+          modelHtml += `
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" name="car_model" value="${model.slug}" id="model${model.id}">
+              <label class="form-check-label" for="model${model.id}">${model.name}</label>
+            </div>
+          `;
+        });
+        
+        carModelsContainer.innerHTML = modelHtml;  // Insert generated models into the container
+      }
     }
   }
+
+  // Pass car brand data to JS (must be injected by Django template)
+  const carBrands = [
+    {% for brand in car_brands %}
+      {
+        name: "{{ brand.name }}",
+        models: [
+          {% for model in brand.models.all %}
+            { name: "{{ model.name }}", slug: "{{ model.slug }}", id: "{{ model.id }}" },
+          {% endfor %}
+        ]
+      },
+    {% endfor %}
+  ];
 </script>
 <!-- Footer -->
 <footer class="bg-dark text-white py-4 mt-5">
