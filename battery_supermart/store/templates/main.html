@@ -253,7 +253,8 @@
       {% for product in best_sellers %}
       <div class="col-6 col-sm-6 col-md-4 col-lg-3">
         <div class="card h-80 shadow-sm">
-          <img src="{{ product.image.url }}" class="object-fit-contain border rounded card-img-top" alt="{{ product.name }}">
+          {% comment %} <img src="{{ product.image.url }}" class="object-fit-contain border rounded card-img-top" alt="{{ product.name }}"> {% endcomment %}
+          <img src="{% if product.image %}{{ product.image.url }}{% else %}/static/img/default_battery.jpg{% endif %}" class="object-fit-contain border rounded card-img-top" alt="{{ product.name }}">
           <div class="card-body text-center">
             <h5 class="card-title">{{ product.name }}</h5>
             <p class="card-text">{{ product.description|truncatechars:40 }}</p>

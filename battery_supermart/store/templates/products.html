@@ -285,7 +285,8 @@ body.light-mode {
         {% for product in products %}
         <div class="col-md-4">
           <div class="card h-100 shadow-sm">
-            <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+            {% comment %} <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}"> {% endcomment %}
+            <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'static/img/default_battery.jpg' %}{% endif %}" class="card-img-top" alt="{{ product.name }}">
             <div class="card-body">
               <h5 class="card-title">{{ product.name }}</h5>
               <p class="card-text">{{ product.description|truncatewords:10 }}</p>
