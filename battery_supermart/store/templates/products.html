@@ -190,7 +190,33 @@ body.light-mode {
 }
 
   </style>
-    
+  
+  <script>
+    function updateCarModels() {
+      // Get the selected car brand from the dropdown
+      const selectedBrand = document.getElementById('car-brand').value;
+  
+      // Get all car models container
+      const carModelsContainer = document.getElementById('car-models-container');
+      
+      // Hide all car model containers initially
+      const allModelContainers = carModelsContainer.querySelectorAll('.brand-models');
+      allModelContainers.forEach(container => container.style.display = 'none');
+  
+      // Show models for the selected brand
+      if (selectedBrand) {
+        const selectedBrandContainer = document.getElementById('brand-' + selectedBrand);
+        if (selectedBrandContainer) {
+          selectedBrandContainer.style.display = 'block';
+        }
+      }
+    }
+  
+    // Optionally, call the function when the page loads to show any selected filters
+    document.addEventListener('DOMContentLoaded', function() {
+      updateCarModels();
+    });
+  </script>  
 </head>
 <body class="light-mode" id="modeWrapper">
 
@@ -245,7 +271,7 @@ body.light-mode {
             <label class="form-check-label" for="brand{{ brand }}">{{ brand }}</label>
           </div>
         {% endfor %}
-    
+        
         <h5 class="filter-heading">Category</h5>
         {% for category in categories %}
           <div class="form-check">
@@ -254,7 +280,7 @@ body.light-mode {
             <label class="form-check-label" for="cat{{ category }}">{{ category }}</label>
           </div>
         {% endfor %}
-    
+        
         <h5 class="filter-heading">Filter by Car Brand & Model</h5>
         
         <!-- Car Brand Dropdown -->
@@ -264,13 +290,12 @@ body.light-mode {
             <option value="{{ brand.name }}" {% if brand.name in selected_brands %}selected{% endif %}>{{ brand.name }}</option>
           {% endfor %}
         </select>
-    
+        
         <!-- Car Models (Initially empty) -->
         <div id="car-models-container">
-          <!-- Models will be dynamically added here based on selected car brand -->
           {% for brand in car_brands %}
             {% if brand.name in selected_brands %}
-              <div class="ps-3">
+              <div class="ps-3 brand-models" id="brand-{{ brand.name }}">
                 {% for model in brand.models.all %}
                   <div class="form-check">
                     <input class="form-check-input" type="checkbox" name="car_model"
@@ -286,8 +311,7 @@ body.light-mode {
     
         <button type="submit" class="btn btn-primary w-100 mt-3">Apply Filters</button>
       </form>
-    </aside>
-    
+    </aside>    
     
     <!-- Product Grid -->
     <main class="col-md-9">
