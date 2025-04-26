@@ -8,20 +8,11 @@
   <link rel="icon" type="image/x-icon" href="{% static 'img/Battery logo.png' %}">
   <link rel="stylesheet" href="{% static 'main.css' %}">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+
   <style>
-    body {
-      background-color: #f1f3f5;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-  
-    .brand-logo {
+     .brand-logo {
       height: 50px;
     }
-  
-    .navbar {
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    }
-  
     .whatsapp-btn {
       position: fixed;
       bottom: 20px;
@@ -32,108 +23,31 @@
       border-radius: 50px;
       text-decoration: none;
       font-size: 18px;
-      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-      transition: background-color 0.3s ease;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+      transition: all 0.3s ease-in-out;
     }
-  
     .whatsapp-btn:hover {
-      background-color: #20b958;
+      background-color: #1ebe5d;
+      text-decoration: none;
+      transform: scale(1.05);
     }
-  
-    .filter-heading {
-      font-weight: bold;
-      margin: 25px 0 10px;
-      font-size: 1.1rem;
+    .form-section {
+      background-color: #f8f9fa;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
     }
-  
-    .form-check {
-      margin-bottom: 10px;
-    }
-  
-    aside form {
+    .contact-card {
       background-color: #ffffff;
-      border-radius: 12px;
-      padding: 20px;
-      border: 1px solid #dee2e6;
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.08);
     }
-  
-    .btn-primary {
-      background-color: #003566;
-      border-color: #003566;
-    }
-  
-    .btn-primary:hover {
-      background-color: #001d3d;
-      border-color: #001d3d;
-    }
-  
-    .card {
-      border: none;
-      border-radius: 16px;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-  
-    .card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-    }
-  
-    .card-img-top {
-      height: 180px;
-      object-fit: cover;
-      border-top-left-radius: 16px;
-      border-top-right-radius: 16px;
-    }
-  
-    .card-title {
-      font-size: 1.1rem;
-      font-weight: 600;
-    }
-  
-    .card-text {
-      font-size: 0.95rem;
-      color: #6c757d;
-    }
-  
-    .fw-bold.text-success {
-      font-size: 1rem;
-      margin-top: 5px;
-    }
-  
-    .btn-outline-primary {
-      border-radius: 50px;
-      font-weight: 500;
-    }
-  
-    .btn-outline-primary:hover {
-      background-color: #003566;
-      color: white;
-      border-color: #003566;
-    }
-  
     footer {
       background-color: #212529;
-      color: #adb5bd;
     }
-  
-    footer a {
-      color: #adb5bd;
-      transition: color 0.2s ease;
-    }
-  
-    footer a:hover {
-      color: #ffffff;
-      text-decoration: underline;
-    }
-
-    @media (min-width: 768px) {
-  aside {
-    position: sticky;
-    top: 90px;
-  }
-}
-/* Default Light Mode */
-body.light-mode {
+    /* Default Light Mode */
+  body.light-mode {
     background-color: #f8f9fa;
     color: #212529;
   }
@@ -188,10 +102,9 @@ body.light-mode {
 .dark-mode .contact-card a {
   color: #f8f9fa !important;
 }
-
   </style>
-    
 </head>
+
 <body class="light-mode" id="modeWrapper">
 
 <!-- Navbar -->
@@ -204,6 +117,7 @@ body.light-mode {
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
       <span class="navbar-toggler-icon"></span>
     </button>
+
     <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
@@ -214,16 +128,17 @@ body.light-mode {
             <li><a class="dropdown-item" href="{% url 'home' %}#BestSeller">Best Seller</a></li>
             <li><a class="dropdown-item" href="{% url 'home' %}#CarModel">Shop by Car Model</a></li>
             <li><a class="dropdown-item" href="{% url 'home' %}#by-brand">Shop by Brand</a></li>
-        </ul>
+          </ul>
         </li>
         <li class="nav-item"><a class="nav-link" href="#">Categories</a></li>
         <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
       </ul>
+
       <ul>
         <div class="d-flex align-items-center ms-auto">
           <label class="form-check-label me-2" for="darkModeToggle">Dark Mode</label>
           <div class="form-check form-switch m-0">
-            <input class="form-check-input custom-switch" type="checkbox" id="darkModeToggle">
+            <input class="form-check-input" type="checkbox" id="darkModeToggle">
           </div>
         </div>
       </ul>
@@ -234,6 +149,7 @@ body.light-mode {
 <!-- Product Page Layout -->
 <div class="container-fluid my-4">
   <div class="row">
+
     <!-- Filter Sidebar -->
     <aside class="col-md-3">
       <form method="GET" class="bg-white p-3 rounded shadow-sm">
@@ -245,7 +161,7 @@ body.light-mode {
             <label class="form-check-label" for="brand{{ brand }}">{{ brand }}</label>
           </div>
         {% endfor %}
-    
+
         <h5 class="filter-heading">Category</h5>
         {% for category in categories %}
           <div class="form-check">
@@ -254,20 +170,16 @@ body.light-mode {
             <label class="form-check-label" for="cat{{ category }}">{{ category }}</label>
           </div>
         {% endfor %}
-    
+
         <h5 class="filter-heading">Filter by Car Brand & Model</h5>
-        
-        <!-- Car Brand Dropdown -->
         <select id="car-brand" class="form-select" onchange="updateCarModels()">
           <option value="">Select Car Brand</option>
           {% for brand in car_brands %}
             <option value="{{ brand.name }}" {% if brand.name in selected_brands %}selected{% endif %}>{{ brand.name }}</option>
           {% endfor %}
         </select>
-    
-        <!-- Car Models (Initially empty) -->
+
         <div id="car-models-container">
-          <!-- Models will be dynamically added here based on selected car brand -->
           {% for brand in car_brands %}
             {% if brand.name in selected_brands %}
               <div class="ps-3">
@@ -283,107 +195,64 @@ body.light-mode {
             {% endif %}
           {% endfor %}
         </div>
-    
+
         <button type="submit" class="btn btn-primary w-100 mt-3">Apply Filters</button>
       </form>
     </aside>
-    
-    
+
     <!-- Product Grid -->
     <main class="col-md-9">
       <div class="row g-4">
-        {% for product in products %}
-        <div class="col-md-4">
-          <div class="card h-100 shadow-sm">
-            {% comment %} <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}"> {% endcomment %}
-            <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'static/img/default_battery.jpg' %}{% endif %}" class="card-img-top" alt="{{ product.name }}">
-            <div class="card-body">
-              <h5 class="card-title">{{ product.name }}</h5>
-              <p class="card-text">{{ product.description|truncatewords:10 }}</p>
-              <p class="fw-bold text-success">₹{{ product.price }}</p>
-              {% if product.slug %}
-              <a href="{% url 'product_detail' product.slug %}" class="btn btn-outline-primary w-100">View Details</a>
-              {% else %}
-              <span class="btn btn-secondary w-100 disabled">Slug Missing</span>
-              {% endif %}
+        {% if products %}
+          {% for product in products %}
+            <div class="col-md-4">
+              <div class="card h-100 shadow-sm">
+                {% if product.image %}
+                  <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                {% else %}
+                  <img src="{% static 'images/default-product.jpg' %}" class="card-img-top" alt="Default Image">
+                {% endif %}
+                <div class="card-body d-flex flex-column">
+                  <h5 class="card-title">{{ product.name }}</h5>
+                  <p class="card-text">{{ product.description|truncatewords:15 }}</p>
+      
+                  <p class="fw-bold text-success mb-2"> ₹{{ product.price_without_old_battery }}</p>
+      
+                  <a href="{% url 'product_detail' product.slug %}" class="btn btn-outline-primary mt-auto">View Details</a>
+                </div>
+              </div>
             </div>
+          {% endfor %}
+        {% else %}
+          <div class="col-12">
+            <p>No products found matching your filters.</p>
           </div>
-        </div>
-        {% empty %}
-        <p class="text-muted">No products found for the selected filters.</p>
-        {% endfor %}
-      </div>
+        {% endif %}
+      </div>      
     </main>
+
   </div>
 </div>
-<!-- JavaScript to dynamically update car models based on selected car brand -->
-<script>
-  // Function to dynamically populate car models based on selected brand
-  function updateCarModels() {
-    var brand = document.getElementById('car-brand').value;
-    var carModelsContainer = document.getElementById('car-models-container');
-    carModelsContainer.innerHTML = '';  // Clear previous models
-
-    if (brand) {
-      // Find the selected brand from the car_brands data
-      var selectedBrand = carBrands.find(brandObj => brandObj.name === brand);
-      
-      if (selectedBrand && selectedBrand.models.length > 0) {
-        let modelHtml = '<strong>Car Models:</strong><br>';
-        
-        // Loop through models of the selected brand and display as checkboxes
-        selectedBrand.models.forEach(model => {
-          modelHtml += `
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" name="car_model" value="${model.slug}" id="model${model.id}">
-              <label class="form-check-label" for="model${model.id}">${model.name}</label>
-            </div>
-          `;
-        });
-        
-        carModelsContainer.innerHTML = modelHtml;  // Insert generated models into the container
-      }
-    }
-  }
-
-  // Pass car brand data to JS (must be injected by Django template)
-  const carBrands = [
-    {% for brand in car_brands %}
-      {
-        name: "{{ brand.name }}",
-        models: [
-          {% for model in brand.models.all %}
-            { name: "{{ model.name }}", slug: "{{ model.slug }}", id: "{{ model.id }}" },
-          {% endfor %}
-        ]
-      },
-    {% endfor %}
-  ];
-</script>
-<!-- Footer -->
-<footer class="bg-dark text-white py-4 mt-5">
-  <div class="container text-center">
-    <p class="mb-1">Battery Super Mart © 2025</p>
-    <p>Email: contact@batterysupermart.in | Phone: +91 XXXXX XXXXX</p>
-    <div>
-      <a href="#" class="text-white me-3">Privacy Policy</a>
-      <a href="#" class="text-white">Return Policy</a>
-    </div>
-  </div>
-</footer>
 
 <!-- WhatsApp Button -->
-<a href="https://wa.me/91XXXXXXXXXX?text=Hi%2C%20I%20need%20a%20battery" class="whatsapp-btn" target="_blank">
-  💬 Chat on WhatsApp
+<a href="https://wa.me/your-whatsapp-number" target="_blank" class="whatsapp-btn">
+  WhatsApp Us
 </a>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-  document.getElementById("darkModeToggle").addEventListener("change", function () {
-  document.body.classList.toggle("dark-mode");
-    const label = document.getElementById("toggleLabel");
-    label.textContent = this.checked ? "Light Mode" : "Dark Mode";
+  const darkModeToggle = document.getElementById('darkModeToggle');
+  const body = document.getElementById('modeWrapper');
+
+  darkModeToggle.addEventListener('change', function() {
+    if (this.checked) {
+      body.classList.add('dark-mode');
+      body.classList.remove('light-mode');
+    } else {
+      body.classList.add('light-mode');
+      body.classList.remove('dark-mode');
+    }
   });
 </script>
 

@@ -11,7 +11,6 @@
     .brand-logo {
       height: 50px;
     }
-
     .whatsapp-btn {
       position: fixed;
       bottom: 20px;
@@ -26,43 +25,34 @@
       z-index: 1000;
       transition: transform 0.2s ease;
     }
-
     .whatsapp-btn:hover {
       transform: scale(1.05);
     }
-
     .product-info h2 {
       font-size: 1.8rem;
       font-weight: bold;
     }
-
     .product-info p {
       font-size: 1rem;
       margin-bottom: 6px;
     }
-
     .product-price h4 {
       font-weight: 600;
     }
-
     .badge {
       font-size: 0.9rem;
     }
-
     .btn-primary, .btn-outline-secondary {
       font-weight: 500;
       padding: 10px 20px;
     }
-
     footer {
       font-size: 0.95rem;
     }
-
     @media (max-width: 767px) {
       .product-info {
         margin-top: 20px;
       }
-
       .btn {
         width: 100%;
       }
@@ -72,41 +62,64 @@
 <body>
 
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-  <div class="container">
-    <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
-      <img src="{% static 'img/Battery logo.png' %}" alt="Logo" class="brand-logo me-2"/>
-      Battery Super Mart
-    </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+<nav class="navbar navbar-expand-lg sticky-top">
+  <div class="container-fluid">
+      <a class="navbar-brand" href="./main.html">
+          <img src="../static/img/Battery logo.png" alt="Logo" width="60" height="55" class="d-inline-block">
+          <span class="fw-bolder text-success">Battery Supermart</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-      <ul class="navbar-nav">
-        <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown">Products</a>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#batteryfinder">Categories</a>
+          </li>
+          <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="{% url 'products' %}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Products
+          </a>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="{% url 'products' %}">All Products</a></li>
             <li><a class="dropdown-item" href="{% url 'home' %}#BestSeller">Best Seller</a></li>
             <li><a class="dropdown-item" href="{% url 'home' %}#CarModel">Shop by Car Model</a></li>
             <li><a class="dropdown-item" href="{% url 'home' %}#by-brand">Shop by Brand</a></li>
         </ul>
-        </li>
-        <li class="nav-item"><a class="nav-link" href="#">Categories</a></li>
-        <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
+          </li>
+          <li class="nav-item">
+          <a class="nav-link" href="#">Contact Us</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" aria-disabled="true">
+            </a>
+          </li>
       </ul>
-    </div>
+      <form class="d-flex mb-4" method="GET" action="{% url 'products' %}">
+        <input class="form-control me-2" type="search" name="q" placeholder="Search" value="{{ query|default:'' }}">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+      <ul>
+        <div class="d-flex align-items-center ms-auto">
+          <label class="form-check-label me-2" for="darkModeToggle">Dark Mode</label>
+          <div class="form-check form-switch m-0">
+            <input class="form-check-input custom-switch" type="checkbox" id="darkModeToggle">
+          </div>
+        </div>
+      </ul>
+      </div>
   </div>
 </nav>
 
 <!-- Product Section -->
 <div class="container my-5">
+
+  <!-- Top Part: Image and Basic Info side by side -->
   <div class="row align-items-start">
     <div class="col-md-6 mb-4 mb-md-0">
-      {% comment %} <img src="{{ product.image.url }}" class="img-fluid rounded shadow-sm" alt="{{ product.name }}"> {% endcomment %}
       <img src="{% if product.image %}{{ product.image.url }}{% else %}/static/img/default_battery.jpg{% endif %}" class="img-fluid rounded shadow-sm" alt="{{ product.name }}">
     </div>
+
     <div class="col-md-6 product-info">
       <h2>{{ product.name }}</h2>
       <p><strong>Model:</strong> {{ product.model }}</p>
@@ -129,26 +142,6 @@
         <p class="text-warning"><strong>Note:</strong> {{ product.note }}</p>
       {% endif %}
 
-      {% if product.description %}
-        <hr>
-        <h5>Description</h5>
-        <p>{{ product.description }}</p>
-      {% endif %}
-
-      {% if product.recommended_for.all %}
-  <h5>Recommended For</h5>
-  <ul>
-    {% for car_model in product.recommended_for.all %}
-      <li>
-        <a href="{% url 'products' %}?car_model={{ car_model.slug }}" class="text-decoration-none">
-          {{ car_model }}
-        </a>
-      </li>
-    {% endfor %}
-  </ul>
-{% endif %}
-
-
       {% if product.is_best_seller %}
         <span class="badge bg-success mb-3">Best Seller</span>
       {% endif %}
@@ -159,6 +152,26 @@
       </div>
     </div>
   </div>
+
+  <!-- Bottom Part: Description and Recommended For -->
+  <div class="mt-5">
+    {% if product.description %}
+      <h5 class="mb-3">Description</h5>
+      <p style="font-size: 1.1rem;">{{ product.description }}</p>
+    {% endif %}
+
+    {% if product.recommended_for.all %}
+      <h5 class="mt-4">Recommended For</h5>
+      <div class="d-flex flex-wrap gap-2">
+        {% for car_model in product.recommended_for.all %}
+          <a href="{% url 'products' %}?car_model={{ car_model.slug }}" class="badge bg-light text-dark text-decoration-none p-2">
+            {{ car_model }}
+          </a>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+
 </div>
 
 <!-- Footer -->
