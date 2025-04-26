@@ -106,24 +106,24 @@ color: #f8f9fa !important;
 <body class="light-mode" id="modeWrapper">
 
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top py-3">
+<nav class="navbar navbar-expand-lg sticky-top">
   <div class="container-fluid">
-    <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
-      <img src="{% static 'img/Battery logo.png' %}" alt="Logo" width="60" height="55" class="d-inline-block align-text-top">
+    <a class="navbar-brand" href="{% url 'home' %}">
+      <img src="{% static 'img/Battery logo.png' %}" alt="Logo" width="60" height="55" class="d-inline-block">
       <span class="fw-bolder text-success ms-2">Battery Supermart</span>
     </a>
 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" href="#batteryfinder">Categories</a>
+          <a class="nav-link active" aria-current="page"  href="#batteryfinder">Categories</a>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+          <a class="nav-link dropdown-toggle" href="{% url 'products' %}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Products
           </a>
           <ul class="dropdown-menu">
@@ -136,6 +136,10 @@ color: #f8f9fa !important;
         <li class="nav-item">
           <a class="nav-link" href="#">Contact Us</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" aria-disabled="true">
+          </a>
+        </li>
       </ul>
 
       <!-- Search bar centered vertically -->
@@ -143,15 +147,15 @@ color: #f8f9fa !important;
         <input class="form-control me-2" type="search" name="q" placeholder="Search" value="{{ query|default:'' }}">
         <button class="btn btn-outline-success" type="submit">Search</button>
       </form>
-
-      <!-- Dark mode toggle aligned vertically -->
-      <div class="d-flex align-items-center ms-3">
-        <label class="form-check-label me-2" for="darkModeToggle">Dark Mode</label>
-        <div class="form-check form-switch m-0">
-          <input class="form-check-input" type="checkbox" id="darkModeToggle">
+      <ul>
+        <div class="d-flex align-items-center ms-auto">
+          <label class="form-check-label me-2" for="darkModeToggle">Dark Mode</label>
+          <div class="form-check form-switch m-0">
+            <input class="form-check-input custom-switch" type="checkbox" id="darkModeToggle">
+          </div>
         </div>
-      </div>
-
+      </ul>
+      
     </div>
   </div>
 </nav>
