@@ -108,6 +108,17 @@ body.dark-mode h6 {
   background-color: #1B2A2F;
   color: #f8f9fa;
 }
+.custom-btn {
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 30px;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+.custom-btn:hover {
+  color: #fff;
+}
 
 .dark-mode .navbar {
   background-color: #1f1f1f;
@@ -151,3 +162,63 @@ body.dark-mode h6 {
   box-shadow: 0 0 10px 3px rgba(40, 167, 69, 0.5); 
 }
 
+
+
+
+
+.form-section {
+      background-color: #f8f9fa;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+    .contact-card {
+      background-color: #ffffff;
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.08);}
+
+body.dark-mode .card,
+body.dark-mode .navbar,
+body.dark-mode .btn,
+body.dark-mode .modal-content {
+    background-color: #243b42;
+    color: #f8f9fa;
+    border-color: #444;
+  }
+
+  body.dark-mode .btn-outline-light {
+    border-color: #f8f9fa;
+    color: #f8f9fa;
+  }
+  .dark-mode .form-container {
+  background-color: #1e1e1e !important; /* Dark card background */
+  color: #f8f9fa !important;
+  border: 1px solid #444; /* Optional */
+}
+
+/* DARK MODE STYLES */
+.dark-mode .form-section,
+.dark-mode .contact-card {
+  background-color: #1e1e1e !important; 
+  color: #f8f9fa !important;           
+  border: 1px solid #333;            
+  border-radius: 10px;               
+  padding: 20px;
+}
+
+.dark-mode .form-control {
+  background-color: #2a2a2a !important;
+  color: #f1f1f1 !important;
+  border: 1px solid #555 !important;
+}
+
+
+.dark-mode .form-control::placeholder {
+  color: #aaa;
+}
+
+
+.dark-mode .contact-card a {
+  color: #f8f9fa !important;
+}
