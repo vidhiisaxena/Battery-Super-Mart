@@ -37,6 +37,31 @@ body{
     margin-top: 50px;
     color:#f8f9fa
 }
+.logo-container {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 20px 0;
+}
+
+.logo-box {
+    width: 100px; 
+    height: 100px;
+    background: white;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.logo-box img {
+    max-width: 80%;
+    max-height: 80%;
+    object-fit: contain;
+}
+
 .catitem{
   padding-left: 4%;
 }
