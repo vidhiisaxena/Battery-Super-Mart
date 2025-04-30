@@ -1,5 +1,5 @@
-<!DOCTYPE html>
 {% load static %}
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -47,59 +47,59 @@
       background-color: #212529;
     }
     /* Default Light Mode */
-  body.light-mode {
+  body .light-mode {
     background-color: #f8f9fa;
     color: #212529;
   }
 
   /* Dark Mode Styling */
-  body.dark-mode {
+  body .dark-mode {
     background-color: #1b2a2f;
     color: #f8f9fa;
   }
 
-  body.dark-mode .card,
-  body.dark-mode .navbar,
-  body.dark-mode .btn,
-  body.dark-mode .modal-content {
+  body .dark-mode .card,
+  body .dark-mode .navbar,
+  body .dark-mode .btn,
+  body .dark-mode .modal-content {
     background-color: #243b42;
     color: #f8f9fa;
     border-color: #444;
   }
 
-  body.dark-mode .btn-outline-light {
+  body .dark-mode .btn-outline-light {
     border-color: #f8f9fa;
     color: #f8f9fa;
   }
-  .dark-mode .form-container {
-  background-color: #1e1e1e !important; /* Dark card background */
+  body .dark-mode .form-container {
+  background-color: #1b2a2f !important; /* Dark card background */
   color: #f8f9fa !important;
   border: 1px solid #444; /* Optional */
 }
 
 /* DARK MODE STYLES */
-.dark-mode .form-section,
-.dark-mode .contact-card {
-  background-color: #1e1e1e !important; 
+body .dark-mode .form-section,
+body .dark-mode .contact-card {
+  background-color: #1b2a2f !important; 
   color: #f8f9fa !important;           
   border: 1px solid #333;            
   border-radius: 10px;               
   padding: 20px;
 }
 
-.dark-mode .form-control {
-  background-color: #2a2a2a !important;
+body .dark-mode .form-control {
+  background-color: #1b2a2f !important;
   color: #f1f1f1 !important;
   border: 1px solid #555 !important;
 }
 
 
-.dark-mode .form-control::placeholder {
+body .dark-mode .form-control::placeholder {
   color: #aaa;
 }
 
 
-.dark-mode .contact-card a {
+body .dark-mode .contact-card a {
   color: #f8f9fa !important;
 }
 
@@ -141,7 +141,7 @@
               </a>
             </li>
         </ul>
-        <form class="d-flex mb-4" method="GET" action="{% url 'products' %}">
+        <form class="d-flex align-items-center" method="GET" action="{% url 'products' %}">
           <input class="form-control me-2" type="search" name="q" placeholder="Search" value="{{ query|default:'' }}">
           <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
@@ -163,7 +163,7 @@
 
     <!-- Filter Sidebar -->
     <aside class="col-md-3">
-      <form method="GET" class="bg-white p-3 rounded shadow-sm">
+      <form method="GET" class="bg-white p-3 rounded shadow-sm form-container">
         <h5 class="filter-heading">Filter by Brand</h5>
         {% for brand in brands %}
           <div class="form-check">

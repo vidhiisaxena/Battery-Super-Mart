@@ -51,7 +51,7 @@
               </a>
             </li>
         </ul>
-        <form class="d-flex mb-4" method="GET" action="{% url 'products' %}">
+        <form class="d-flex align-items-center" method="GET" action="{% url 'products' %}">
           <input class="form-control me-2" type="search" name="q" placeholder="Search" value="{{ query|default:'' }}">
           <button class="btn btn-outline-success" type="submit">Search</button>
         </form>               

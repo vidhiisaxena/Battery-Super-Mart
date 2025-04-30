@@ -81,8 +81,8 @@ body{
 .text-muted:hover{
   color: #f8f9fa;
 }
-.dark-mode .text-muted{
-  color: #f8f9fa;
+body.dark-mode .text-muted{
+  color: #f8f9fa !important;
 }
 
 .emoji {
@@ -118,9 +118,18 @@ body.dark-mode h6 {
   color: #e0e0e0 !important; 
 }
 
+body.dark-mode .dropdown-menu{
+  background-color: #1B2A2F;
+}
+
+body.dark-mode .dropdown-menu :hover{
+  background-color: #243b42;
+}
+
 .light-mode .navbar {
-  background-color: #ffffff;
+  background-color: #e9ecef;
   color: #212529;
+  border: 1px solid #b6bdc4;
 }
 
 .light-mode .card {
@@ -186,10 +195,6 @@ body.dark-mode h6 {
 .form-check-input.custom-switch:focus {
   box-shadow: 0 0 10px 3px rgba(40, 167, 69, 0.5); 
 }
-
-
-
-
 
 .form-section {
       background-color: #f8f9fa;
