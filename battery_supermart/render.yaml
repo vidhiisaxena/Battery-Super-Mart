@@ -12,3 +12,7 @@ services:
         generateValue: true
       - key: DEBUG
         value: False
+    mounts:
+      - type: volume
+        name: media
+        path: /opt/render/project/src/media

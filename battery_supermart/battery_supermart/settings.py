@@ -126,25 +126,46 @@ USE_TZ = True
 
 import os
 
-# Static files (CSS, JavaScript, images)
-STATIC_URL = '/static/'
+# # Static files (CSS, JavaScript, images)
+# STATIC_URL = '/static/'
 
-# This is where Django will collect all static files from your apps (including 'store/static/img/')
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'store/static'),  # Adds 'store/static/' to static files search
-]
+# # This is where Django will collect all static files from your apps (including 'store/static/img/')
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, 'store/static'),  # Adds 'store/static/' to static files search
+# ]
 
-# Where the static files will be collected after running 'collectstatic'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # 'staticfiles' is where 'collectstatic' will put everything
+# # Where the static files will be collected after running 'collectstatic'
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # 'staticfiles' is where 'collectstatic' will put everything
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
+# # Default primary key field type
+# # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+# DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# # settings.py
+
+# # Media files (user-uploaded files)
+# MEDIA_URL = '/media/'
+# MEDIA_ROOT = BASE_DIR / 'media'  # or os.path.join(BASE_DIR, 'media')
+#   # Directory where media files are stored
 
 # settings.py
 
+import os
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Static files (CSS, JavaScript, Images)
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'store/static'),  # include your app-level static folder
+]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # for collectstatic
+
 # Media files (user-uploaded files)
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'  # or os.path.join(BASE_DIR, 'media')
-  # Directory where media files are stored
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# SECURITY
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
