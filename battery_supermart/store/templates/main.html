@@ -100,6 +100,14 @@
           </select>
         </div>
         <div class="col-md-3">
+          <select class="form-select" name="make">
+            <option value="">Select Car by Make</option>
+            {% for brand in brands %}
+              <option value="{{ brand }}">{{ brand }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-md-3">
           <select class="form-select" name="model">
             <option value="">Select Car Model</option>
             {% for model in models %}
@@ -412,7 +420,7 @@
         <h5 class="mt-4 mb-2">Quick Actions</h5>
         <div class="d-grid gap-2 d-md-block">
           <a href="tel:+918448866391" class="btn btn-outline-success me-2 mb-2">📞 Call Now</a>
-          <a href="https://wa.me/91xxxxxxxxxx" class="btn btn-success mb-2" target="_blank">💬 WhatsApp Us</a>
+          <a href="https://wa.me/919599997752" target="_blank" class="btn btn-success mb-2">💬 WhatsApp Us</a>
         </div>
       </div>
     </div>
@@ -430,13 +438,14 @@
         </a>
       </div>
       <div>Support</div>
-      <div>Visit Us in Store</div>
+      <div><a href="https://g.co/kgs/MZvyozD">Visit Us in Store</a></div>
       </p>
   </div>
 </footer>
-<a href="https://wa.me/91XXXXXXXXXX?text=Hi%2C%20I%20need%20a%20battery%20for%20my%20car" 
-class="whatsapp-btn" target="_blank">
-  💬 Chat on WhatsApp
+
+<a href="https://wa.me/919599997752" target="_blank"
+class="whatsapp-btn">
+  <img width="50" src="../static/img/whatsapp.png" alt="WhatsApp Icon"/>
 </a>
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 <script>
