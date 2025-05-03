@@ -29,6 +29,29 @@
     text-decoration: none;
     transform: scale(1.05);
   }
+  .battery-image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  width: 100px;
+  overflow: hidden;
+}
+
+.battery-image {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+}
+
+.feature-box {
+  border: 1px solid #ddd;        
+  border-radius: 8px;             
+  padding: 20px;                  
+  height: 100%;                  
+  box-shadow: 0 0 8px rgba(0,0,0,0.05);
+}
+
   .form-section {
     background-color: #f8f9fa;
     padding: 40px;
@@ -71,7 +94,8 @@ body.dark-mode .modal-content {
   border-color: #444;
 }
 
-body.dark-mode .nav-link{
+body.dark-mode .nav-link,
+body.dark-mode .text-muted{
   color: #f8f9fa !important;
 }
 
@@ -182,10 +206,46 @@ color: #f8f9fa !important;
 
 <!-- Product Section -->
 <div class="container my-5">
+
+  <div class="container my-5">
+    <div class="row text-center">
+      <!-- 1. Genuine Products -->
+      <div class="col-md-4 col-sm-6 mb-4">
+        <div class="feature-box">
+          <img src="{% static 'img/icons/award.png' %}" alt="Genuine" style="height: 40px;">
+          <h6 class="mt-3"><strong>100% GENUINE PRODUCTS</strong></h6>
+          <p class="text-muted small">100% genuine products from trusted sellers only</p>
+        </div>
+      </div>
+  
+      <!-- 2. Best Prices -->
+      <div class="col-md-4 col-sm-6 mb-4">
+        <div class="feature-box">
+          <img src="{% static 'img/icons/best-price.png' %}" alt="Best Prices" style="height: 40px;">
+          <h6 class="mt-3"><strong>BEST PRICES</strong></h6>
+          <p class="text-muted small">Get big discounts & maximum exchange value</p>
+        </div>
+      </div>
+  
+      <!-- 3. Safe & Secure -->
+      <div class="col-md-4 col-sm-6 mb-4">
+        <div class="feature-box">
+          <img src="{% static 'img/icons/shield.png' %}" alt="Safe" style="height: 40px;">
+          <h6 class="mt-3"><strong>100% SAFE AND SECURE</strong></h6>
+          <p class="text-muted small">100% payment protection. Your card details are safe</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
   <!-- Top Part: Image and Basic Info side by side -->
   <div class="row align-items-start">
     <div class="col-md-6 mb-4 mb-md-0">
-      <img src="{% if product.image %}{{ product.image.url }}{% else %}/img/default_battery.jpg{% endif %}" class="img-fluid rounded shadow-sm" alt="{{ product.name }}">
+      <div class="d-flex justify-content-center">
+        <img src="{% if product.image %}{{ product.image.url }}{% else %}/img/default_battery.jpg{% endif %}" 
+             class="img-fluid rounded shadow-sm battery-image" 
+             alt="{{ product.name }}">
+      </div>      
     </div>
 
     <div class="col-md-6 product-info">
@@ -252,7 +312,7 @@ color: #f8f9fa !important;
       <label for="email" class="form-label">Email</label>
       <input type="email" class="form-control" id="email" name="email" required>
     </div>
-    {% comment %} <!-- Optional: remove this if not in model -->
+    {% comment %} 
     <div class="mb-3">
       <label for="phone" class="form-label">Phone Number</label>
       <input type="text" class="form-control" id="phone" name="phone">
