@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Product, Review, CarModel, CarBrand
 
 
@@ -73,3 +73,18 @@ def product_detail(request, slug):
 
 def contact(request):
     return render(request, 'contact.html')
+
+def add_review(request, slug):
+    product = get_object_or_404(Product, slug=slug)
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        content = request.POST.get('review')
+
+        Review.objects.create(
+            product=product,
+            name=name,
+            email=email,
+            content=content
+        )
+    return redirect('product_detail', slug=slug)

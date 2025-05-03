@@ -50,6 +50,12 @@ body.light-mode {
   color: #212529;
 }
 
+body.light-mode .navbar {
+  background-color: #e9ecef; 
+  color: #212529;
+  border: 1px solid #b6bdc4;
+}
+
 /* Dark Mode Styling */
 body.dark-mode {
   background-color: #1b2a2f;
@@ -63,6 +69,22 @@ body.dark-mode .modal-content {
   background-color: #243b42;
   color: #f8f9fa;
   border-color: #444;
+}
+
+body.dark-mode .nav-link{
+  color: #f8f9fa !important;
+}
+
+body.dark-mode .dropdown-menu{
+  background-color: #1B2A2F;
+}
+
+body.dark-mode .dropdown-item{
+  color: #f8f9fa !important;
+}
+
+body.dark-mode .dropdown-menu :hover{
+  background-color: #243b42;
 }
 
 body.dark-mode .btn-outline-light {
@@ -95,7 +117,6 @@ border: 1px solid #555 !important;
 .dark-mode .form-control::placeholder {
 color: #aaa;
 }
-
 
 .dark-mode .contact-card a {
 color: #f8f9fa !important;
@@ -142,7 +163,6 @@ color: #f8f9fa !important;
         </li>
       </ul>
 
-      <!-- Search bar centered vertically -->
       <form class="d-flex align-items-center" method="GET" action="{% url 'products' %}">
         <input class="form-control me-2" type="search" name="q" placeholder="Search" value="{{ query|default:'' }}">
         <button class="btn btn-outline-success" type="submit">Search</button>
@@ -165,7 +185,7 @@ color: #f8f9fa !important;
   <!-- Top Part: Image and Basic Info side by side -->
   <div class="row align-items-start">
     <div class="col-md-6 mb-4 mb-md-0">
-      <img src="{% if product.image %}{{ product.image.url }}{% else %}/static/img/default_battery.jpg{% endif %}" class="img-fluid rounded shadow-sm" alt="{{ product.name }}">
+      <img src="{% if product.image %}{{ product.image.url }}{% else %}/img/default_battery.jpg{% endif %}" class="img-fluid rounded shadow-sm" alt="{{ product.name }}">
     </div>
 
     <div class="col-md-6 product-info">
@@ -220,29 +240,42 @@ color: #f8f9fa !important;
   </div>
 
    <!-- Reviews Section -->
-   <h5 class="mt-5">Customer Reviews</h5>
-   <div class="form-section">
-     <form action="" method="post">
-       {% csrf_token %}
-       <div class="mb-3">
-         <label for="name" class="form-label">Name</label>
-         <input type="text" class="form-control" id="name" name="name" required>
-       </div>
-       <div class="mb-3">
-         <label for="email" class="form-label">Email</label>
-         <input type="email" class="form-control" id="email" name="email" required>
-       </div>
-       <div class="mb-3">
-         <label for="phone" class="form-label">Phone Number</label>
-         <input type="text" class="form-control" id="phone" name="phone" required>
-       </div>
-       <div class="mb-3">
-         <label for="review" class="form-label">Review</label>
-         <textarea class="form-control" id="review" name="review" rows="3" required></textarea>
-       </div>
-       <button type="submit" class="btn btn-primary">Submit Review</button>
-     </form>
-   </div>
+<h5 class="mt-5">Customer Reviews</h5>
+<div class="form-section">
+  <form action="{% url 'add_review' product.slug %}" method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label for="name" class="form-label">Name</label>
+      <input type="text" class="form-control" id="name" name="name" required>
+    </div>
+    <div class="mb-3">
+      <label for="email" class="form-label">Email</label>
+      <input type="email" class="form-control" id="email" name="email" required>
+    </div>
+    {% comment %} <!-- Optional: remove this if not in model -->
+    <div class="mb-3">
+      <label for="phone" class="form-label">Phone Number</label>
+      <input type="text" class="form-control" id="phone" name="phone">
+    </div> {% endcomment %}
+    <div class="mb-3">
+      <label for="review" class="form-label">Review</label>
+      <textarea class="form-control" id="review" name="review" rows="3" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit Review</button>
+  </form>
+
+  <hr>
+  <h5 class="mt-4">All Reviews</h5>
+  {% for review in reviews %}
+    <div class="mb-3">
+      <strong>{{ review.name }}</strong> ({{ review.created_at|date:"F j, Y" }})<br>
+      <p>{{ review.content }}</p>
+    </div>
+  {% empty %}
+    <p>No reviews yet.</p>
+  {% endfor %}
+</div>
+
 
 </div>
 

@@ -51,7 +51,7 @@
               </a>
             </li>
         </ul>
-        <form class="d-flex mb-4" method="GET" action="{% url 'products' %}">
+        <form class="d-flex align-items-center" method="GET" action="{% url 'products' %}">
           <input class="form-control me-2" type="search" name="q" placeholder="Search" value="{{ query|default:'' }}">
           <button class="btn btn-outline-success" type="submit">Search</button>
         </form>               
@@ -93,7 +93,7 @@
       <div class="row justify-content-center mt-4">
         <div class="col-md-3">
           <select class="form-select" name="brand">
-            <option value="">Select Car Brand</option>
+            <option value="">Select Battery Brand</option>
             {% for brand in brands %}
               <option value="{{ brand }}">{{ brand }}</option>
             {% endfor %}
@@ -109,7 +109,7 @@
         </div>
         <div class="col-md-3">
           <select class="form-select" name="model">
-            <option value="">Select Car Model</option>
+            <option value="">Select Battery Model</option>
             {% for model in models %}
               <option value="{{ model }}">{{ model }}</option>
             {% endfor %}

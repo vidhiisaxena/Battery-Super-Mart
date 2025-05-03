@@ -20,12 +20,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-#96*m6ic54#ma)3@xp45i0)k17166##atur+ml0o3v!^a31524"
+# SECRET_KEY = "django-insecure-#96*m6ic54#ma)3@xp45i0)k17166##atur+ml0o3v!^a31524"
+import os
+
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'fallback-secret')
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -41,6 +46,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -116,9 +122,53 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = "static/"
+# STATIC_URL = "static/"
+# settings.py
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
+import os
 
-DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+# # Static files (CSS, JavaScript, images)
+# STATIC_URL = '/static/'
+
+# # This is where Django will collect all static files from your apps (including 'store/static/img/')
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, 'store/static'),  # Adds 'store/static/' to static files search
+# ]
+
+# # Where the static files will be collected after running 'collectstatic'
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # 'staticfiles' is where 'collectstatic' will put everything
+
+# # Default primary key field type
+# # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
+
+# DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# # settings.py
+
+# # Media files (user-uploaded files)
+# MEDIA_URL = '/media/'
+# MEDIA_ROOT = BASE_DIR / 'media'  # or os.path.join(BASE_DIR, 'media')
+#   # Directory where media files are stored
+
+# settings.py
+
+import os
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Static files (CSS, JavaScript, Images)
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'store/static'),  # include your app-level static folder
+]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # for collectstatic
+
+# Media files (user-uploaded files)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# SECURITY
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
