@@ -251,34 +251,3 @@ body.dark-mode .btn-outline-light {
   color: #f8f9fa !important;
 }
 
-/*why choose us*/
-.why-title {
-  font-weight: 700;
-  margin-bottom: 40px;
-  text-align: center;
-  color: #264436;
-}
-.why-feature-card {
-  background-color: white;
-  border: 2px solid #264436;
-  border-radius: 12px;
-  padding: 25px 15px;
-  text-align: center;
-  transition: all 0.3s ease;
-  height: 100%;
-}
-.why-feature-card:hover {
-  background-color: #264436;
-  color: white;
-}
-.why-feature-icon {
-  font-size: 3rem;
-  margin-bottom: 15px;
-}
-.why-feature-card:hover .feature-icon {
-  color: white;
-}
-.why-feature-text {
-  font-weight: 600;
-  font-size: 1.1rem;
-}
