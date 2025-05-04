@@ -8,6 +8,7 @@
     <link rel="icon" type="image/x-icon" href="../static/img/Battery logo.png">
     <link href="../static/main.css" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -130,15 +131,15 @@
     <h4 class="fw-bold mb-3">SHOP FOR CAR BATTERIES BY MAKE</h4>
     <div class="border-top border-danger mb-3" style="width: 120px;"></div>
     <div class="category-slider logo-container">
-      <div class="text-center logo-box">
+      <div class="text-center">
         <img src="data:image/png;base64,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"
          width="50" alt="Maruti Suzuki">
       </div>
-      <div class="text-center logo-box">
+      <div class="text-center">
         <img src="https://car-logos.b-cdn.net/wp-content/uploads/2023/04/mahindra-logo-2021-present-768x557.webp"
          width="50" alt="Mahindra">
       </div>
-      <div class="text-center logo-box">
+      <div class="text-center">
         <img src="https://car-logos.b-cdn.net/wp-content/uploads/2023/03/audi-logo-2016-present-768x557.webp"
          width="50" alt="audi">
       </div>
@@ -269,6 +270,56 @@
 </section>
 
 
+<section class="container py-5">
+  <h2 class="why-title">Why Battery Suparmart?</h2>
+  <div class="row g-4">
+
+    <div class="col-md-4 col-sm-6">
+      <div class="why-feature-box">
+        <i class="bi bi-truck why-feature-icon"></i>
+        <h5>Free Shipping</h5>
+      </div>
+    </div>
+
+    <div class="col-md-4 col-sm-6">
+      <div class="why-feature-box">
+        <i class="bi bi-award why-feature-icon"></i>
+        <h5>Free Installation</h5>
+      </div>
+    </div>
+
+    <div class="col-md-4 col-sm-6">
+      <div class="why-feature-box">
+        <i class="bi bi-cash-coin why-feature-icon"></i>
+        <h5>Cash On Delivery</h5>
+      </div>
+    </div>
+
+    <div class="col-md-4 col-sm-6">
+      <div class="why-feature-box">
+        <i class="bi bi-shield-lock why-feature-icon"></i>
+        <h5>Genuine Products</h5>
+      </div>
+    </div>
+
+    <div class="col-md-4 col-sm-6">
+      <div class="why-feature-box">
+        <i class="bi bi-patch-check why-feature-icon"></i>
+        <h5>Verified Technicians</h5>
+      </div>
+    </div>
+
+    <div class="col-md-4 col-sm-6">
+      <div class="why-feature-box">
+        <i class="bi bi-clock-history why-feature-icon"></i>
+        <h5>Delivery Within 60 min</h5>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
 
 
 <!--How this works-->
@@ -360,6 +411,7 @@
         </p>
         <a href="https://g.co/kgs/8pVVUde" style="text-decoration:none color:white" class="btn btn-success mt-3">Learn More</a>
       </div>
+      <div class="col-lg-1"></div>
 
 
       <div class="col-lg-4 text-center rounded float-end" style="text-align: center; margin-top: 40px;">
@@ -370,53 +422,34 @@
   </div>
 </section>
 
-<!--Contact us-->
+
 <!-- Contact Section -->
 <div class="container my-5">
   <h2 class="text-center mb-5">Get in Touch With Us</h2>
   <div class="row g-4">
     
-    <!-- Contact Form -->
-    <div class="col-md-6">
-      <div class="form-section">
-        <form>
-          <div class="mb-3">
-            <label for="name" class="form-label">Name*</label>
-            <input type="text" class="form-control" id="name" placeholder="Your full name" required>
-          </div>
-          <div class="mb-3">
-            <label for="phone" class="form-label">Phone*</label>
-            <input type="tel" class="form-control" id="phone" placeholder="Your contact number" required>
-          </div>
-          <div class="mb-3">
-            <label for="email" class="form-label">Email (optional)</label>
-            <input type="email" class="form-control" id="email" placeholder="you@example.com">
-          </div>
-          <div class="mb-3">
-            <label for="message" class="form-label">Message*</label>
-            <textarea class="form-control" id="message" rows="4" placeholder="E.g. I need a battery for Hyundai i20" required></textarea>
-          </div>
-          <button type="submit" class="btn btn-primary w-100">Send Inquiry</button>
-        </form>
-      </div>
-    </div>
-
-    <!-- Contact Info -->
+<!-- Contact Info -->
     <div class="col-md-6">
       <div class="contact-card">
         <h5 class="mb-3">Store Address</h5>
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3500.8204544969653!2d77.232433!3d28.665094199999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cfd0682f8aa2b%3A0x84c5888a85caa2bd!2sIGDTUW%20Auditorium!5e0!3m2!1sen!2sin!4v1745050879837!5m2!1sen!2sin" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-        <p>123 Battery Lane, Sector 5, New Delhi, India</p>
+        <iframe 
+          src="https://www.google.com/maps?q=Battery+Super+Mart,+Leisure+Valley+Market,+Amrapali+Icon,+U.G-20A,+Techzone+4,+Greater+Noida,+Uttar+Pradesh+201306&output=embed"
+          width="100%" 
+          height="400" 
+          style="border:0;" 
+          allowfullscreen="" 
+          loading="lazy" 
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+        <p>Battery Super Mart, Leisure Valley Market, U.G-20A, Techzone 4, Greater Noida, Uttar Pradesh 201306</p>
 
         <h5 class="mt-4 mb-2">Phone</h5>
-        <p><a href="tel:+919876543210" class="text-decoration-none text-dark">+91 98765 43210</a></p>
+        <p><a href="tel:+919599997752" class="text-decoration-none text-dark">+91 9599997752</a></p>
 
-        <h5 class="mt-4 mb-2">Email</h5>
-        <p><a href="mailto:info@batterysupermart.com" class="text-decoration-none text-dark">info@batterysupermart.com</a></p>
-
+    
         <h5 class="mt-4 mb-2">Quick Actions</h5>
         <div class="d-grid gap-2 d-md-block">
-          <a href="tel:+918448866391" class="btn btn-outline-success me-2 mb-2">📞 Call Now</a>
+          <a href="tel:+919599997752" class="btn btn-outline-success me-2 mb-2">📞 Call Now</a>
           <a href="https://wa.me/919599997752" target="_blank" class="btn btn-success mb-2">💬 WhatsApp Us</a>
         </div>
       </div>
