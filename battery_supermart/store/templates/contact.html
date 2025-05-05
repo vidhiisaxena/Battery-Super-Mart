@@ -10,6 +10,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
   <link href="../static/main.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet"/>
+
   <style>
     .brand-logo {
       height: 50px;
@@ -159,12 +161,12 @@
 </nav>
 
 <!-- Contact Section -->
-<div class="container my-5">
+<div class="container my-5" data-aos="fade-down">
   <h2 class="text-center mb-5">Get in Touch With Us</h2>
   <div class="row g-4">
     
     <!-- Contact Form -->
-    <div class="col-md-6">
+    <div class="col-md-6" data-aos="zoom-in">
       <div class="form-section">
         <form>
           <div class="mb-3">
@@ -189,22 +191,22 @@
     </div>
 
     <!-- Contact Info -->
-    <div class="col-md-6">
+    <div class="col-md-6" data-aos="zoom-in">
       <div class="contact-card">
         <h5 class="mb-3">Store Address</h5>
         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3503.4278645634704!2d77.4353614754991!3d28.58693837568962!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cefb1541403cb%3A0xb9f82954a47b379d!2sBattery%20Super%20Mart!5e0!3m2!1sen!2sin!4v1746263191437!5m2!1sen!2sin" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         <p>Leisure valley market, Amrapali Icon, U.G-20A, Techzone 4, Amrapali Leisure Valley, Greater Noida, Uttar Pradesh 201306</p>
 
         <h5 class="mt-4 mb-2">Phone</h5>
-        <p><a href="tel:+919876543210" class="text-decoration-none text-dark">095999 97752</a></p>
+        <p><a href="tel:+919599997752" class="text-decoration-none text-dark">+91 9599997752</a></p>
 
         <!-- <h5 class="mt-4 mb-2">Email</h5>
         <p><a href="mailto:info@batterysupermart.com" class="text-decoration-none text-dark">info@batterysupermart.com</a></p> -->
 
         <h5 class="mt-4 mb-2">Quick Actions</h5>
         <div class="d-grid gap-2 d-md-block">
-          <a href="tel:+918448866391" class="btn btn-outline-success me-2 mb-2">📞 Call Now</a>
-          <a href="https://wa.me/91xxxxxxxxxx" class="btn btn-success mb-2" target="_blank">💬 WhatsApp Us</a>
+          <a href="tel:+919599997752" class="btn btn-outline-success me-2 mb-2">📞 Call Now</a>
+          <a href="https://wa.me/919599997752" class="btn btn-success mb-2" target="_blank">💬 WhatsApp Us</a>
         </div>
       </div>
     </div>
@@ -259,6 +261,14 @@ class="whatsapp-btn">
   });
   
 
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script>
+  AOS.init({
+    duration: 800,
+    once: true
+  });
 </script>
 
 </body>
