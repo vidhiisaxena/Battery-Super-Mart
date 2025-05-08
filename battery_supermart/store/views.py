@@ -38,10 +38,13 @@ def products_view(request):
     query = request.GET.get('q')
     if query:
         products = products.filter(
-            Q(name__icontains=query) |
-            Q(brand__icontains=query) |
-            Q(model__icontains=query)
-        )
+        Q(name__icontains=query) |
+        Q(brand__icontains=query) |
+        Q(model__icontains=query) |
+        Q(recommended_for__brand__name__icontains=query) |
+        Q(recommended_for__name__icontains=query)
+    ).distinct()
+
 
     selected_brand = request.GET.get('brand')
     if selected_brand:
