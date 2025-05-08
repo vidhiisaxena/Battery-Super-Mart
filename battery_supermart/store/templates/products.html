@@ -291,7 +291,7 @@ body .dark-mode .contact-card a {
         name: "{{ brand.name }}",
         models: [
           {% for model in brand.models.all %}
-            { name: "{{ model.name }}", slug: "{{ model.slug }}", id: "{{ model.id }}" },
+          { name: "{{ model.name|escapejs }}", slug: "{{ model.slug|escapejs }}", id: "{{ model.id }}" },
           {% endfor %}
         ]
       },

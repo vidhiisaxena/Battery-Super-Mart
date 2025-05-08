@@ -4,21 +4,37 @@ from .models import Product, Review, CarModel, CarBrand
 
 def home(request):
     brands = Product.objects.values_list('brand', flat=True).distinct()
-    models = Product.objects.values_list('model', flat=True).distinct()
+    car_brands = CarBrand.objects.prefetch_related('models')
+    car_models = CarModel.objects.all()
     best_sellers = Product.objects.filter(is_best_seller=True)
 
     return render(request, 'main.html', {
         'brands': brands,
-        'models': models,
+        'car_brands': car_brands,
+        'car_models': car_models,
         'best_sellers': best_sellers,
     })
 
+from django.http import JsonResponse
+
+def get_car_models(request):
+    make = request.GET.get('make')
+    models = []
+
+    if make:
+        car_brand = CarBrand.objects.filter(name=make).first()
+        if car_brand:
+            models = list(car_brand.models.values('name', 'slug'))
+
+    return JsonResponse({'models': models})
+
 from django.db.models import Q
+
+from .models import Product, CarBrand, CarModel
 
 def products_view(request):
     products = Product.objects.all()
 
-    # Search query
     query = request.GET.get('q')
     if query:
         products = products.filter(
@@ -27,40 +43,37 @@ def products_view(request):
             Q(model__icontains=query)
         )
 
-    # Brand & category filters
-    selected_brands = request.GET.getlist('brand')
-    selected_categories = request.GET.getlist('category')
+    selected_brand = request.GET.get('brand')
+    if selected_brand:
+        products = products.filter(brand=selected_brand)
 
-    if selected_brands:
-        products = products.filter(brand__in=selected_brands)
-    if selected_categories:
-        products = products.filter(category__in=selected_categories)
-    
+    selected_make = request.GET.get('make')
+    selected_model = request.GET.get('model')
 
-    # Filter by car model (using slugs now!)
-    selected_car_model_slugs = [slug for slug in request.GET.getlist('car_model') if slug.strip()]
-    if selected_car_model_slugs:
-        products = products.filter(recommended_for__slug__in=selected_car_model_slugs).distinct()
+    car_models = CarModel.objects.all()  # default initially
 
-    # Get all available filter options
-    all_brands = Product.objects.values_list('brand', flat=True).distinct()
-    all_categories = Product.objects.values_list('category', flat=True).distinct()
+    if selected_make:
+        selected_car_brand = CarBrand.objects.filter(name=selected_make).first()
+        if selected_car_brand:
+            car_models = selected_car_brand.models.all()
+            products = products.filter(recommended_for__brand=selected_car_brand)
 
-    # Fetch car brands with related models
-    car_brands = CarBrand.objects.prefetch_related('models').all()
+    if selected_model:
+        products = products.filter(recommended_for__name=selected_model)
 
     context = {
         'products': products,
-        'brands': all_brands,
-        'categories': all_categories,
-        'car_brands': car_brands,
-        'selected_brands': selected_brands,
-        'selected_categories': selected_categories,
-        'selected_car_models': selected_car_model_slugs,
+        'brands': Product.objects.values_list('brand', flat=True).distinct(),
+        # 'car_brands': CarBrand.objects.all(),
+        'car_brands': CarBrand.objects.prefetch_related('models'),
         'query': query,
+        'selected_brand': selected_brand,
+        'selected_make': selected_make,
+        'selected_model': selected_model,
     }
 
     return render(request, 'products.html', context)
+
 
 
 def product_detail(request, slug):
