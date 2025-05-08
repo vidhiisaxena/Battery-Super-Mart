@@ -7,4 +7,5 @@ urlpatterns = [
     path('products/<slug:slug>/', views.product_detail, name='product_detail'),
     path('contact/', views.contact, name='contact'),
     path('product/<slug:slug>/add-review/', views.add_review, name='add_review'),
+    path('ajax/get-car-models/', views.get_car_models, name='get_car_models'),
 ]

@@ -128,12 +128,29 @@
         </div>
       </div>
     </form>  
-    <p>Brands: {{ brands }}</p>
-    <p>Car Brands: {{ car_brands }}</p>
-    <p>Models: {{ car_models }}</p>    
-    <p>Car Brands: {{ car_brands|length }} brands loaded</p>
-    <p>Car Models: {{ car_models|length }} models loaded</p>
-      
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const makeSelect = document.querySelector("select[name='make']");
+        const modelSelect = document.querySelector("select[name='model']");
+    
+        makeSelect.addEventListener("change", function () {
+          const selectedMake = this.value;
+          modelSelect.innerHTML = '<option value="">Loading...</option>';
+    
+          fetch(`/ajax/get-car-models/?make=${encodeURIComponent(selectedMake)}`)
+            .then(response => response.json())
+            .then(data => {
+              modelSelect.innerHTML = '<option value="">Select Car Model</option>';
+              data.models.forEach(model => {
+                const option = document.createElement("option");
+                option.value = model.name;
+                option.textContent = model.name;
+                modelSelect.appendChild(option);
+              });
+            });
+        });
+      });
+    </script>    
   </div>
 </section>
 
