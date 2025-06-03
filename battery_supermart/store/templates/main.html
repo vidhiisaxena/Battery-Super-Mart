@@ -235,7 +235,7 @@
 
     <form method="GET" action="{% url 'products' %}">
       <div class="row justify-content-center mt-4">
-        <div class="col-md-3">
+        <div class="col-md-3 mb-3">
           <select class="form-select" name="brand">
             <option value="">Select Battery Brand</option>
             {% for brand in brands %}
@@ -245,7 +245,7 @@
         </div>
         
         <!-- Car Make Dropdown -->
-        <div class="col-md-3">
+        <div class="col-md-3 mb-3">
           <select class="form-select" name="make">
             <option value="">Select Car Make</option>
             {% for car_brand in car_brands %}
@@ -255,7 +255,7 @@
         </div>
     
         <!-- Car Model Dropdown -->
-        <div class="col-md-3">
+        <div class="col-md-3 mb-3">
           <select class="form-select" name="model">
             <option value="">Select Car Model</option>
             {% for car_model in car_models %}
@@ -264,7 +264,7 @@
           </select>
         </div>
         
-        <div class="col-md-2">
+        <div class="col-md-2 mb-3">
           <button class="btn btn-success w-100" type="submit">Search</button>
         </div>
       </div>
@@ -382,10 +382,10 @@
     <div class="row g-4" data-aos="fade-right">
       {% for product in best_sellers %}
       <div class="col-6 col-sm-6 col-md-4 col-lg-3">
-        <div class="card h-80 shadow-sm">
+        <div class="card h-100 shadow-sm d-flex flex-column">
           {% comment %} <img src="{{ product.image.url }}" class="object-fit-contain border rounded card-img-top" alt="{{ product.name }}"> {% endcomment %}
-          <img src="{% if product.image %}{{ product.image.url }}{% else %}/static/img/default_battery.jpg{% endif %}" class="object-fit-contain border rounded card-img-top" alt="{{ product.name }}">
-          <div class="card-body text-center">
+          <img src="{% if product.image %}{{ product.image.url }}{% else %}/static/img/default_battery.jpg{% endif %}" class="object-fit-contain border rounded card-img-top" style="height: 180px; object-fit: contain;" alt="{{ product.name }}">
+          <div class="card-body d-flex flex-column justify-content-between text-center">
             <h5 class="card-title">{{ product.name }}</h5>
             <p class="card-text">{{ product.description|truncatechars:40 }}</p>
             <strong class="d-block mb-2">₹{{ product.price_without_old_battery }}</strong>
