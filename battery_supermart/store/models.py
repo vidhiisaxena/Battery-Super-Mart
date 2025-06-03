@@ -2,10 +2,19 @@ from django.db import models
 from django.utils.text import slugify
 
 CATEGORY_CHOICES = [
+    ('2_wheeler', '2 Wheeler Batteries'),
     ('Car', 'Car'),
-    ('Bike', 'Bike'),
-    ('Inverter', 'Inverter'),
+    # ('4_wheeler', '4 Wheeler Batteries'),
+    ('computer_ups', 'Computer UPS'),
+    ('inverter_combo', 'Inverter and Battery Combo'),
+    ('inverter_ups', 'Inverter and UPS Systems'),
+    ('inverter_batteries', 'Inverter Batteries'),
+    ('smf_vrla', 'SMF/VRLA Batteries'),
+    ('truck', 'Truck Batteries'),
+    ('lithium_ion', 'Lithium Ion Batteries'),
+    ('inverter_lithium', 'Inverter + Lithium Ion Batteries'),
 ]
+
 # models.py
 
 class CarBrand(models.Model):

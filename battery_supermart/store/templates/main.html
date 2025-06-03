@@ -70,24 +70,165 @@
     </div>
 </nav>
 
+<!-- Car Battery Finder Section -->
+<section id="batteryfinder" class="py-10 bg-light text-center" data-aos="fade-up">
+  <div class="container-fluid">
+    <h1 class="display-5 fw-bold">Find the Right Battery for Your Car</h1>
+    <p class="lead">Search by car brand or battery model</p>
+
+    <form method="GET" action="{% url 'products' %}">
+      <div class="row justify-content-center mt-4">
+        <!-- Category -->
+        <div class="col-md-3">
+          <select class="form-select" name="category" id="categorySelect">
+            <option value="">Select Category</option>
+            {% for key, label in category_choices %}
+              <option value="{{ key }}" {% if key == request.GET.category %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <!-- Battery Brand -->
+        <div class="col-md-3 brand-field">
+          <select class="form-select" name="brand">
+            <option value="">Select Battery Brand</option>
+            {% for brand in brands %}
+              <option value="{{ brand }}" {% if brand == request.GET.brand %}selected{% endif %}>{{ brand }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        
+        <!-- Car Make -->
+        <div class="col-md-3 make-field">
+          <select class="form-select" name="make">
+            <option value="">Select Car Make</option>
+            {% for car_brand in car_brands %}
+              <option value="{{ car_brand.name }}" {% if car_brand.name == request.GET.make %}selected{% endif %}>{{ car_brand.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+    
+        <!-- Car Model -->
+        <div class="col-md-3 model-field">
+          <select class="form-select" name="model">
+            <option value="">Select Car Model</option>
+            {% for car_model in car_models %}
+              <option value="{{ car_model.name }}" {% if car_model.name == request.GET.model %}selected{% endif %}>{{ car_model.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <!-- Capacity -->
+        <div class="col-md-3 capacity-field" style="display: none;">
+          <select class="form-select" name="capacity">
+            <option value="">Select Capacity</option>
+            {% for capacity in capacities %}
+      <option value="{{ capacity }}" {% if request.GET.capacity == capacity %}selected{% endif %}>{{ capacity }}</option>
+    {% endfor %}
+          </select>
+        </div> 
+        
+
+        <div class="col-md-2">
+          <button class="btn btn-success w-100" type="submit">Search</button>
+        </div>
+      </div>
+    </form>  
+
+    <!-- JavaScript for dynamic field logic -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const categorySelect = document.getElementById("categorySelect");
+        const makeField = document.querySelector(".make-field");
+        const modelField = document.querySelector(".model-field");
+        const brandField = document.querySelector(".brand-field");
+        const capacityField = document.querySelector(".capacity-field");
+
+        const makeSelect = document.querySelector("select[name='make']");
+        const modelSelect = document.querySelector("select[name='model']");
+
+        function updateFieldVisibility() {
+          const selectedCategory = categorySelect.value;
+
+          // Hide all first
+          makeField.style.display = "none";
+          modelField.style.display = "none";
+          brandField.style.display = "none";
+          capacityField.style.display = "none";
+
+          // Vehicle-related categories
+          if (["2_wheeler", "4_wheeler", "truck","Car"].includes(selectedCategory)) {
+            makeField.style.display = "block";
+            modelField.style.display = "block";
+            brandField.style.display = "block";
+          }
+          // Inverter and UPS categories
+          else if (["computer_ups", "inverter_combo", "inverter_ups", "inverter_batteries", "smf_vrla", "lithium_ion", "inverter_lithium"].includes(selectedCategory)) {
+            capacityField.style.display = "block";
+            brandField.style.display = "block";
+          }
+        }
+
+        // Run once on load
+        updateFieldVisibility();
+
+        // Update on change
+        categorySelect.addEventListener("change", () => {
+          updateFieldVisibility();
+          // Reset make and model
+          makeSelect.value = "";
+          modelSelect.innerHTML = '<option value="">Select Car Make First</option>';
+          modelSelect.disabled = true;
+        });
+
+        // Populate models via AJAX
+        makeSelect.addEventListener("change", function () {
+          const selectedMake = this.value;
+
+          if (!selectedMake) {
+            modelSelect.disabled = true;
+            modelSelect.innerHTML = '<option value="">Select Car Make First</option>';
+            return;
+          }
+
+          modelSelect.disabled = false;
+          modelSelect.innerHTML = '<option value="">Loading...</option>';
+
+          fetch(`/ajax/get-car-models/?make=${encodeURIComponent(selectedMake)}`)
+            .then(response => response.json())
+            .then(data => {
+              modelSelect.innerHTML = '<option value="">Select Car Model</option>';
+              data.models.forEach(model => {
+                const option = document.createElement("option");
+                option.value = model.name;
+                option.textContent = model.name;
+                modelSelect.appendChild(option);
+              });
+            });
+        });
+      });
+    </script>
+  </div>
+</section>
+
 <div class="container mt-5 mb-3 text-center" data-aos="fade-down">
   <h1 class="fw-bold display-5">Discover our wide selection of <br> genuine batteries.</h1>
 </div>
 <div class="container mb-5 mt-2 text-center">
   <h2 class="mb-3 fw-bold text-success" data-aos="fade-up">Top Battery Brands</h2>
   <p data-aos="zoom-in">Compare top-rated batteries for your car. Choose based on power, warranty, and price.</p>
-  <ul class="list-unstyled d-inline-block text-start" data-aos="zoom-in">
+  {% comment %} <ul class="list-unstyled d-inline-block text-start" data-aos="zoom-in">
     <li class="mb-2">✔ Amaron, Exide, SF Sonic</li>
     <li class="mb-2">✔ 36 to 72 Month Warranty</li>
     <li class="mb-2">✔ 100% Genuine Products</li>
-  </ul>
+  </ul> {% endcomment %}
   <div>
     <a href="{% url 'products' %}" class="btn btn-success mt-4 px-4 py-2" data-aos="fade-down">Browse Products</a>
   </div>
 </div>
 
 <!-- Car Battery Finder Section -->
-<section id="batteryfinder" class="py-10 bg-light text-center" data-aos="fade-up">
+{% comment %} <section id="batteryfinder" class="py-10 bg-light text-center" data-aos="fade-up">
   <div class="container-fluid">
     <h1 class="display-5 fw-bold">Find the Right Battery for Your Car</h1>
     <p class="lead">Search by car brand or battery model</p>
@@ -152,7 +293,7 @@
       });
     </script>    
   </div>
-</section>
+</section> {% endcomment %}
 
 
 <!--Shop for car batteries by make-->
@@ -572,5 +713,148 @@ class="whatsapp-btn">
     label.textContent = this.checked ? "Light Mode" : "Dark Mode";
   });
 </script>
+
+<!-- Your filters, form, product listing etc. -->
+
+<!-- Place both scripts before closing body tag -->
+<script>
+  // Script for disabling model until make is selected
+  document.addEventListener("DOMContentLoaded", function () {
+    const makeSelect = document.querySelector("select[name='make']");
+    const modelSelect = document.querySelector("select[name='model']");
+
+    modelSelect.disabled = true;
+    modelSelect.innerHTML = '<option value="">Select Car Make First</option>';
+
+    makeSelect.addEventListener("change", function () {
+      const selectedMake = this.value;
+
+      if (!selectedMake) {
+        modelSelect.disabled = true;
+        modelSelect.innerHTML = '<option value="">Select Car Make First</option>';
+        return;
+      }
+
+      modelSelect.disabled = false;
+      modelSelect.innerHTML = '<option value="">Loading...</option>';
+
+      fetch(`/ajax/get-car-models/?make=${encodeURIComponent(selectedMake)}`)
+        .then(response => response.json())
+        .then(data => {
+          modelSelect.innerHTML = '<option value="">Select Car Model</option>';
+          data.models.forEach(model => {
+            const option = document.createElement("option");
+            option.value = model.name;
+            option.textContent = model.name;
+            modelSelect.appendChild(option);
+          });
+        });
+    });
+  });
+</script>
+
+<script>
+  // Script for showing/hiding filters based on selected category
+  document.addEventListener("DOMContentLoaded", function () {
+    const categorySelect = document.getElementById("categorySelect");
+    const makeField = document.querySelector(".make-field");
+    const modelField = document.querySelector(".model-field");
+    const capacityField = document.querySelector(".capacity-field");
+
+    function updateFilterFields() {
+      const selectedCategory = categorySelect.value;
+
+      makeField.style.display = "none";
+      modelField.style.display = "none";
+      capacityField.style.display = "none";
+
+      if (["2_wheeler", "Car", "truck"].includes(selectedCategory)) {
+        makeField.style.display = "block";
+        modelField.style.display = "block";
+      } else if (["computer_ups", "inverter_combo", "inverter_ups", "inverter_batteries", "smf_vrla", "lithium_ion", "inverter_lithium"].includes(selectedCategory)) {
+        capacityField.style.display = "block";
+      }
+    }
+
+    categorySelect.addEventListener("change", updateFilterFields);
+    updateFilterFields(); // Initial run
+  });
+</script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const categorySelect = document.getElementById("categorySelect");
+    const makeField = document.querySelector(".make-field");
+    const modelField = document.querySelector(".model-field");
+    const capacityField = document.querySelector(".capacity-field");
+    const brandField = document.querySelector(".brand-field"); // optional
+
+    const makeSelect = document.querySelector("select[name='make']");
+    const modelSelect = document.querySelector("select[name='model']");
+
+    // Initially disable model
+    modelSelect.disabled = true;
+    modelSelect.innerHTML = '<option value="">Select Car Make First</option>';
+
+    function updateFilterFields() {
+      const selectedCategory = categorySelect.value;
+
+      // Hide all fields by default
+      makeField.style.display = "none";
+      modelField.style.display = "none";
+      capacityField.style.display = "none";
+      brandField.style.display = "none";
+
+      if (["2_wheeler", "Car", "truck"].includes(selectedCategory)) {
+        makeField.style.display = "block";
+        modelField.style.display = "block";
+        brandField.style.display = "block";
+      } else if (["computer_ups", "inverter_combo", "inverter_ups", "inverter_batteries", "smf_vrla", "lithium_ion", "inverter_lithium"].includes(selectedCategory)) {
+        capacityField.style.display = "block";
+        brandField.style.display = "block";
+      }
+    }
+
+    // On category change
+    categorySelect.addEventListener("change", () => {
+      updateFilterFields();
+
+      // Reset dependent fields
+      makeSelect.value = "";
+      modelSelect.innerHTML = '<option value="">Select Car Make First</option>';
+      modelSelect.disabled = true;
+    });
+
+    // On make change → populate models via AJAX
+    makeSelect.addEventListener("change", function () {
+      const selectedMake = this.value;
+
+      if (!selectedMake) {
+        modelSelect.disabled = true;
+        modelSelect.innerHTML = '<option value="">Select Car Make First</option>';
+        return;
+      }
+
+      modelSelect.disabled = false;
+      modelSelect.innerHTML = '<option value="">Loading...</option>';
+
+      fetch(`/ajax/get-car-models/?make=${encodeURIComponent(selectedMake)}`)
+        .then(response => response.json())
+        .then(data => {
+          modelSelect.innerHTML = '<option value="">Select Car Model</option>';
+          data.models.forEach(model => {
+            const option = document.createElement("option");
+            option.value = model.name;
+            option.textContent = model.name;
+            modelSelect.appendChild(option);
+          });
+        });
+    });
+
+    // Initialize fields on page load
+    updateFilterFields();
+  });
+</script>
+
 </body>
 </html>

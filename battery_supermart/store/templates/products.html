@@ -162,55 +162,146 @@ body .dark-mode .contact-card a {
 <div class="container-fluid my-4">
   <div class="row">
 
-    <!-- Filter Sidebar -->
     <aside class="col-md-3" data-aos="fade-right">
-      <form method="GET" class="bg-white p-3 rounded shadow-sm form-container">
-        <h5 class="filter-heading">Filter by Brand</h5>
-        {% for brand in brands %}
-          <div class="form-check" data-aos="zoom-in">
-            <input class="form-check-input" type="checkbox" name="brand" value="{{ brand }}" id="brand{{ brand }}"
-            {% if brand in selected_brands %}checked{% endif %}>
-            <label class="form-check-label" for="brand{{ brand }}">{{ brand }}</label>
-          </div>
+  <form method="GET" class="bg-white p-3 rounded shadow-sm form-container">
+    <input type="hidden" name="q" value="{{ query|default:'' }}">
+    <!-- CATEGORY -->
+<label for="category">Category:</label>
+<select name="category" id="category" class="form-control mb-3">
+  <option value="">-- Select Category --</option>
+  <option value="Car" {% if request.GET.category == "Car" %}selected{% endif %}>Car</option>
+  <option value="2_wheeler" {% if request.GET.category == "2_wheeler" %}selected{% endif %}>2 Wheeler</option>
+  <option value="truck" {% if request.GET.category == "truck" %}selected{% endif %}>Truck</option>
+  <option value="computer_ups" {% if request.GET.category == "computer_ups" %}selected{% endif %}>Computer UPS</option>
+  <option value="inverter_combo" {% if request.GET.category == "inverter_combo" %}selected{% endif %}>Inverter and Battery Combo</option>
+  <option value="inverter_ups" {% if request.GET.category == "inverter_ups" %}selected{% endif %}>Inverter and UPS Systems</option>
+  <option value="inverter_batteries" {% if request.GET.category == "inverter_batteries" %}selected{% endif %}>Inverter Batteries</option>
+  <option value="smf_vrla" {% if request.GET.category == "smf_vrla" %}selected{% endif %}>SMF/VRLA Batteries</option>
+  <option value="lithium_ion" {% if request.GET.category == "lithium_ion" %}selected{% endif %}>Lithium Ion Batteries</option>
+  <option value="inverter_lithium" {% if request.GET.category == "inverter_lithium" %}selected{% endif %}>Inverter + Lithium Ion Batteries</option>
+</select>
+
+    <!-- CATEGORY SELECT -->
+     <!-- Car Make -->
+<div id="car-make-section" style="display: none;">
+    <label for="make">Make</label>
+    <select name="make" id="make" class="form-control">
+        <option value="">-- Select Make --</option>
+        {% for brand in car_brands %}
+            <option value="{{ brand.name }}" {% if request.GET.make == brand.name %}selected{% endif %}>{{ brand.name }}</option>
         {% endfor %}
+    </select>
+</div>
 
-        <h5 class="filter-heading">Category</h5>
-        {% for category in categories %}
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="category" value="{{ category }}" id="cat{{ category }}"
-            {% if category in selected_categories %}checked{% endif %}>
-            <label class="form-check-label" for="cat{{ category }}">{{ category }}</label>
-          </div>
+<!-- Car Model -->
+<div id="car-model-section" style="display: none;">
+    <label for="model">Model</label>
+    <select name="model" id="model" class="form-control">
+        <option value="">-- Select Model --</option>
+        {% for model in car_models %}
+            <option value="{{ model.name }}" {% if request.GET.model == model.name %}selected{% endif %}>{{ model.name }}</option>
         {% endfor %}
+    </select>
+</div>
 
-        <h5 class="filter-heading">Filter by Car Brand & Model</h5>
-        <select id="car-brand" class="form-select" onchange="updateCarModels()">
-          <option value="">Select Car Brand</option>
-          {% for brand in car_brands %}
-            <option value="{{ brand.name }}" {% if brand.name in selected_brands %}selected{% endif %}>{{ brand.name }}</option>
-          {% endfor %}
-        </select>
+<!-- Capacity -->
+<div id="capacity-section" style="display: none;">
+    <label for="capacity">Capacity</label>
+    <select name="capacity" id="capacity" class="form-control">
+        <option value="">-- Select Capacity --</option>
+        {% for capacity in capacities %}
+      <option value="{{ capacity }}" {% if selected_capacity == capacity %}selected{% endif %}>{{ capacity }}</option>
+    {% endfor %}
+    </select>
+</div>
 
-        <div id="car-models-container">
-          {% for brand in car_brands %}
-            {% if brand.name in selected_brands %}
-              <div class="ps-3">
-                {% for model in brand.models.all %}
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="car_model"
-                           value="{{ model.slug }}" id="model{{ model.id }}"
-                           {% if model.slug in selected_car_models %}checked{% endif %}>
-                    <label class="form-check-label" for="model{{ model.id }}">{{ model.name }}</label>
-                  </div>
-                {% endfor %}
-              </div>
-            {% endif %}
-          {% endfor %}
-        </div>
+{% comment %} <label for="category-filter">Select Category:</label>
+<select id="category-filter" name="category" class="form-select mb-3" onchange="toggleFilterFields(); this.form.submit();">
+  <option value="">All Categories</option>
+  {% for value, label in category_choices %}
+    <option value="{{ value }}" {% if value == selected_category %}selected{% endif %}>{{ label }}</option>
+  {% endfor %}
+</select> {% endcomment %}
 
-        <button type="submit" class="btn btn-primary w-100 mt-3">Apply Filters</button>
-      </form>
-    </aside>
+{% comment %} <!-- CAR FILTERS -->
+<div id="car-fields" style="display: none;">
+  <!-- MAKE -->
+  <label for="make">Car Make:</label>
+  <select name="make" id="make" class="form-select mb-3" onchange="this.form.submit()">
+    <option value="">All Makes</option>
+    {% for brand in car_brands %}
+      <option value="{{ brand.name }}" {% if brand.name == selected_make %}selected{% endif %}>{{ brand.name }}</option>
+    {% endfor %}
+  </select>
+
+  <!-- MODEL -->
+  <label for="model">Car Model:</label>
+  <select name="model" id="model" class="form-select mb-3" onchange="this.form.submit()">
+    <option value="">All Models</option>
+    {% for model in car_models %}
+      <option value="{{ model.name }}" {% if model.name == selected_model %}selected{% endif %}>{{ model.name }}</option>
+    {% endfor %}
+  </select>
+</div>
+
+<!-- CAPACITY FILTERS -->
+<div id="inverter-fields" style="display: none;">
+  <label for="capacity">Battery Capacity:</label>
+  <select name="capacity" id="capacity" class="form-select mb-3" onchange="this.form.submit()">
+    <option value="">All Capacities</option>
+    {% for cap in capacities %}
+      <option value="{{ cap }}" {% if cap == selected_capacity %}selected{% endif %}>{{ cap }}</option>
+    {% endfor %}
+  </select>
+</div> {% endcomment %}
+<!-- Car Make -->
+<div id="car-make-section" style="display: none;">
+    <label for="make">Car Make</label>
+    <select name="make" id="make" class="form-control">
+        <option value="">-- Select Make --</option>
+        {% for brand in car_brands %}
+            <option value="{{ brand.name }}" {% if request.GET.make == brand.name %}selected{% endif %}>{{ brand.name }}</option>
+        {% endfor %}
+    </select>
+</div>
+
+<!-- Car Model -->
+<div id="car-model-section" style="display: none;">
+    <label for="model">Car Model</label>
+    <select name="model" id="model" class="form-control">
+        <option value="">-- Select Model --</option>
+        {% for model in car_models %}
+            <option value="{{ model.name }}" {% if request.GET.model == model.name %}selected{% endif %}>{{ model.name }}</option>
+        {% endfor %}
+    </select>
+</div>
+
+<!-- Capacity -->
+<div id="capacity-section" style="display: none;">
+    <label for="capacity">Capacity</label>
+    <select name="capacity" id="capacity" class="form-control">
+        <option value="">-- Select Capacity --</option>
+        {% for capacity in capacities %}
+            <option value="{{ capacity }}" {% if capacity == request.GET.capacity %}selected{% endif %}>{{ capacity }}</option>
+        {% endfor %}
+    </select>
+</div>
+
+
+<!-- BRAND FILTER (Always visible) -->
+<label for="brand">Battery Brand:</label>
+<select name="brand" id="brand" class="form-select mb-3" onchange="this.form.submit()">
+  <option value="">All Brands</option>
+  {% for brand in brands %}
+    <option value="{{ brand }}" {% if brand == selected_brand %}selected{% endif %}>{{ brand }}</option>
+  {% endfor %}
+</select>
+
+
+    <button type="submit" class="btn btn-primary w-100 mt-3">Apply Filters</button>
+  </form>
+</aside>
+
 
     <!-- Product Grid -->
     <main class="col-md-9" data-aos="fade-up">
@@ -256,48 +347,65 @@ body .dark-mode .contact-card a {
 
 <!-- JavaScript to dynamically update car models based on selected car brand -->
 <script>
-  // Function to dynamically populate car models based on selected brand
+  // Toggle sections based on category
+  function toggleFilterFields() {
+    const category = document.getElementById('category-filter').value;
+    const carSection = document.getElementById('car-section');
+    const capacitySection = document.getElementById('capacity-section');
+
+    if (category === 'Car' || category === 'Bike') {
+      carSection.style.display = 'block';
+      capacitySection.style.display = 'none';
+    } else if (category === 'Inverter') {
+      carSection.style.display = 'none';
+      capacitySection.style.display = 'block';
+    } else {
+      carSection.style.display = 'none';
+      capacitySection.style.display = 'none';
+    }
+  }
+
+  // Load car models for selected brand
   function updateCarModels() {
-    var brand = document.getElementById('car-brand').value;
-    var carModelsContainer = document.getElementById('car-models-container');
-    carModelsContainer.innerHTML = '';  // Clear previous models
+    const brand = document.getElementById('car-brand').value;
+    const container = document.getElementById('car-models-container');
+    container.innerHTML = '';  // Clear previous
 
     if (brand) {
-      // Find the selected brand from the car_brands data
-      var selectedBrand = carBrands.find(brandObj => brandObj.name === brand);
-      
-      if (selectedBrand && selectedBrand.models.length > 0) {
-        let modelHtml = '<strong>Car Models:</strong><br>';
-        
-        // Loop through models of the selected brand and display as checkboxes
+      const selectedBrand = carBrands.find(obj => obj.name === brand);
+      if (selectedBrand) {
         selectedBrand.models.forEach(model => {
-          modelHtml += `
+          container.innerHTML += `
             <div class="form-check">
               <input class="form-check-input" type="checkbox" name="car_model" value="${model.slug}" id="model${model.id}">
               <label class="form-check-label" for="model${model.id}">${model.name}</label>
             </div>
           `;
         });
-        
-        carModelsContainer.innerHTML = modelHtml;  // Insert generated models into the container
       }
     }
   }
 
-  // Pass car brand data to JS (must be injected by Django template)
+  // Inject car brands & models from Django context
   const carBrands = [
     {% for brand in car_brands %}
       {
-        name: "{{ brand.name }}",
+        name: "{{ brand.name|escapejs }}",
         models: [
           {% for model in brand.models.all %}
-          { name: "{{ model.name|escapejs }}", slug: "{{ model.slug|escapejs }}", id: "{{ model.id }}" },
+            { name: "{{ model.name|escapejs }}", slug: "{{ model.slug|escapejs }}", id: "{{ model.id }}" },
           {% endfor %}
         ]
       },
     {% endfor %}
   ];
+
+  // Run on page load
+  document.addEventListener('DOMContentLoaded', function () {
+    toggleFilterFields();
+  });
 </script>
+
 <!-- Footer -->
 <footer class="bg-dark text-white py-4 mt-5">
   <div class="container-fluid text-center">
@@ -326,6 +434,44 @@ class="whatsapp-btn">
     const label = document.getElementById("toggleLabel");
     label.textContent = this.checked ? "Light Mode" : "Dark Mode";
   });
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const categorySelect = document.getElementById("category");
+    const carMakeSection = document.getElementById("car-make-section");
+    const carModelSection = document.getElementById("car-model-section");
+    const capacitySection = document.getElementById("capacity-section");
+
+    function toggleFields(category) {
+        const carCategories = ["2_wheeler", "car", "truck"];
+        const capacityCategories = [
+            "computer_ups", "inverter_combo", "inverter_ups",
+            "inverter_batteries", "smf_vrla", "lithium_ion", "inverter_lithium"
+        ];
+
+        if (carCategories.includes(category)) {
+            carMakeSection.style.display = "block";
+            carModelSection.style.display = "block";
+            capacitySection.style.display = "none";
+        } else if (capacityCategories.includes(category)) {
+            carMakeSection.style.display = "none";
+            carModelSection.style.display = "none";
+            capacitySection.style.display = "block";
+        } else {
+            carMakeSection.style.display = "none";
+            carModelSection.style.display = "none";
+            capacitySection.style.display = "none";
+        }
+    }
+
+    // Initial toggle on page load
+    toggleFields(categorySelect.value);
+
+    // Update on change
+    categorySelect.addEventListener("change", function () {
+        toggleFields(this.value);
+    });
+});
 </script>
 
 </body>
