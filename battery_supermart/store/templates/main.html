@@ -77,63 +77,66 @@
     <p class="lead">Search by car brand or battery model</p>
 
     <form method="GET" action="{% url 'products' %}">
-      <div class="row justify-content-center mt-4">
-        <!-- Category -->
-        <div class="col-md-3">
-          <select class="form-select" name="category" id="categorySelect">
-            <option value="">Select Category</option>
-            {% for key, label in category_choices %}
-              <option value="{{ key }}" {% if key == request.GET.category %}selected{% endif %}>{{ label }}</option>
-            {% endfor %}
-          </select>
-        </div>
+  <!-- First Row: Dropdowns -->
+  <div class="row justify-content-center g-3 mt-4">
+    <!-- Category -->
+    <div class="col-md-3">
+      <select class="form-select" name="category" id="categorySelect">
+        <option value="">Select Category</option>
+        {% for key, label in category_choices %}
+          <option value="{{ key }}" {% if key == request.GET.category %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+    </div>
 
-        <!-- Battery Brand -->
-        <div class="col-md-3 brand-field">
-          <select class="form-select" name="brand">
-            <option value="">Select Battery Brand</option>
-            {% for brand in brands %}
-              <option value="{{ brand }}" {% if brand == request.GET.brand %}selected{% endif %}>{{ brand }}</option>
-            {% endfor %}
-          </select>
-        </div>
-        
-        <!-- Car Make -->
-        <div class="col-md-3 make-field">
-          <select class="form-select" name="make">
-            <option value="">Select Car Make</option>
-            {% for car_brand in car_brands %}
-              <option value="{{ car_brand.name }}" {% if car_brand.name == request.GET.make %}selected{% endif %}>{{ car_brand.name }}</option>
-            {% endfor %}
-          </select>
-        </div>
-    
-        <!-- Car Model -->
-        <div class="col-md-3 model-field">
-          <select class="form-select" name="model">
-            <option value="">Select Car Model</option>
-            {% for car_model in car_models %}
-              <option value="{{ car_model.name }}" {% if car_model.name == request.GET.model %}selected{% endif %}>{{ car_model.name }}</option>
-            {% endfor %}
-          </select>
-        </div>
+    <!-- Battery Brand -->
+    <div class="col-md-3 brand-field">
+      <select class="form-select" name="brand">
+        <option value="">Select Battery Brand</option>
+        {% for brand in brands %}
+          <option value="{{ brand }}" {% if brand == request.GET.brand %}selected{% endif %}>{{ brand }}</option>
+        {% endfor %}
+      </select>
+    </div>
 
-        <!-- Capacity -->
-        <div class="col-md-3 capacity-field" style="display: none;">
-          <select class="form-select" name="capacity">
-            <option value="">Select Capacity</option>
-            {% for capacity in capacities %}
-      <option value="{{ capacity }}" {% if request.GET.capacity == capacity %}selected{% endif %}>{{ capacity }}</option>
-    {% endfor %}
-          </select>
-        </div> 
-        
+    <!-- Car Make -->
+    <div class="col-md-3 make-field">
+      <select class="form-select" name="make">
+        <option value="">Select Car Make</option>
+        {% for car_brand in car_brands %}
+          <option value="{{ car_brand.name }}" {% if car_brand.name == request.GET.make %}selected{% endif %}>{{ car_brand.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
 
-        <div class="col-md-2">
-          <button class="btn btn-success w-100" type="submit">Search</button>
-        </div>
-      </div>
-    </form>  
+    <!-- Car Model -->
+    <div class="col-md-3 model-field">
+      <select class="form-select" name="model">
+        <option value="">Select Car Model</option>
+        {% for car_model in car_models %}
+          <option value="{{ car_model.name }}" {% if car_model.name == request.GET.model %}selected{% endif %}>{{ car_model.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <!-- Capacity -->
+    <div class="col-md-3 capacity-field" style="display: none;">
+      <select class="form-select" name="capacity">
+        <option value="">Select Capacity</option>
+        {% for capacity in capacities %}
+          <option value="{{ capacity }}" {% if request.GET.capacity == capacity %}selected{% endif %}>{{ capacity }}</option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+
+  <!-- Second Row: Search Button -->
+  <div class="row justify-content-center mt-3">
+    <div class="col-md-2">
+      <button class="btn btn-success w-100" type="submit">Search</button>
+    </div>
+  </div>
+</form>
 
     <!-- JavaScript for dynamic field logic -->
     <script>
