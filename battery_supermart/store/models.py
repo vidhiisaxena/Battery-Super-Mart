@@ -19,6 +19,7 @@ CATEGORY_CHOICES = [
 
 class CarBrand(models.Model):
     name = models.CharField(max_length=100)
+    category = models.CharField(max_length=50, choices=CATEGORY_CHOICES, default='Car')
 
     def __str__(self):
         return self.name

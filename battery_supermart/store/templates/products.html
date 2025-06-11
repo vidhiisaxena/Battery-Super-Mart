@@ -345,6 +345,7 @@ body .dark-mode .contact-card a {
   });
 </script>
 
+
 <!-- JavaScript to dynamically update car models based on selected car brand -->
 <script>
   // Load car models for selected brand
@@ -386,6 +387,133 @@ body .dark-mode .contact-card a {
   document.addEventListener('DOMContentLoaded', function () {
     toggleFilterFields();
   });
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const categorySelect = document.getElementById("category");
+  const makeSelect = document.getElementById("make");
+  const modelSelect = document.getElementById("model");
+  const capacitySelect = document.getElementById("capacity");
+  const brandSelect = document.getElementById("brand");
+
+  const makeSection = document.getElementById("car-make-section");
+  const modelSection = document.getElementById("car-model-section");
+  const capacitySection = document.getElementById("capacity-section");
+
+  function updateFieldVisibility() {
+    const selectedCategory = categorySelect.value;
+
+    // Hide all optional fields first
+    makeSection.style.display = "none";
+    modelSection.style.display = "none";
+    capacitySection.style.display = "none";
+
+    // Show based on selected category
+    if (["Car", "2_wheeler", "truck"].includes(selectedCategory)) {
+      makeSection.style.display = "block";
+      modelSection.style.display = "block";
+    } else if (
+      [
+        "computer_ups",
+        "inverter_combo",
+        "inverter_ups",
+        "inverter_batteries",
+        "smf_vrla",
+        "lithium_ion",
+        "inverter_lithium"
+      ].includes(selectedCategory)
+    ) {
+      capacitySection.style.display = "block";
+    }
+  }
+
+  // Run on page load
+  updateFieldVisibility();
+
+  // On category change
+  categorySelect.addEventListener("change", function () {
+    const selectedCategory = this.value;
+
+    // Reset fields
+    makeSelect.innerHTML = '<option value="">-- Select Make --</option>';
+    modelSelect.innerHTML = '<option value="">-- Select Model --</option>';
+    capacitySelect.innerHTML = '<option value="">-- Select Capacity --</option>';
+    brandSelect.value = "";
+
+    updateFieldVisibility();
+
+    // Fetch car brands
+    if (["Car", "2_wheeler", "truck"].includes(selectedCategory)) {
+      fetch(`/ajax/get-car-brands/?category=${encodeURIComponent(selectedCategory)}`)
+        .then((response) => response.json())
+        .then((data) => {
+          data.brands.forEach((brand) => {
+            const option = document.createElement("option");
+            option.value = brand;
+            option.textContent = brand;
+            makeSelect.appendChild(option);
+          });
+        });
+    }
+
+    // Fetch capacities for inverter categories
+    if (
+      [
+        "computer_ups",
+        "inverter_combo",
+        "inverter_ups",
+        "inverter_batteries",
+        "smf_vrla",
+        "lithium_ion",
+        "inverter_lithium"
+      ].includes(selectedCategory)
+    ) {
+      fetch(`/ajax/get-capacities/?category=${encodeURIComponent(selectedCategory)}`)
+        .then((response) => response.json())
+        .then((data) => {
+          data.capacities.forEach((cap) => {
+            const option = document.createElement("option");
+            option.value = cap;
+            option.textContent = cap;
+            capacitySelect.appendChild(option);
+          });
+        });
+    }
+
+    // Optional: fetch relevant brands
+    fetch(`/ajax/get-brands/?category=${encodeURIComponent(selectedCategory)}`)
+      .then((response) => response.json())
+      .then((data) => {
+        brandSelect.innerHTML = '<option value="">All Brands</option>';
+        data.brands.forEach((brand) => {
+          const option = document.createElement("option");
+          option.value = brand;
+          option.textContent = brand;
+          brandSelect.appendChild(option);
+        });
+      });
+  });
+
+  // On make change: fetch models
+  makeSelect.addEventListener("change", function () {
+    const selectedMake = this.value;
+    modelSelect.innerHTML = '<option value="">Loading...</option>';
+    modelSelect.disabled = true;
+
+    fetch(`/ajax/get-car-models/?make=${encodeURIComponent(selectedMake)}`)
+      .then((response) => response.json())
+      .then((data) => {
+        modelSelect.disabled = false;
+        modelSelect.innerHTML = '<option value="">-- Select Model --</option>';
+        data.models.forEach((model) => {
+          const option = document.createElement("option");
+          option.value = model.name;
+          option.textContent = model.name;
+          modelSelect.appendChild(option);
+        });
+      });
+  });
+});
 </script>
 
 <!-- Footer -->

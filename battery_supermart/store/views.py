@@ -160,3 +160,53 @@ def add_review(request, slug):
             content=content
         )
     return redirect('product_detail', slug=slug)
+
+from django.http import JsonResponse
+from .models import CarBrand, Product
+
+# AJAX: Get car brands + models by category
+def get_filtered_car_data(request):
+    category = request.GET.get('category')
+    car_brands_data = []
+
+    if category in ['Car', '2_wheeler', 'truck']:
+        car_brands = CarBrand.objects.prefetch_related('models').all()
+        for brand in car_brands:
+            models = brand.models.all()
+            car_brands_data.append({
+                'name': brand.name,
+                'models': [model.name for model in models]
+            })
+    return JsonResponse({'car_brands': car_brands_data})
+
+
+# AJAX: Get capacities for inverter-type categories
+def get_filtered_capacities(request):
+    category = request.GET.get('category')
+    if category:
+        capacities = list(Product.objects.filter(category=category)
+                          .exclude(capacity__isnull=True)
+                          .exclude(capacity__exact="")
+                          .values_list('capacity', flat=True)
+                          .distinct())
+    else:
+        capacities = []
+    return JsonResponse({'capacities': capacities})
+
+
+# AJAX: Get brands by category
+def get_filtered_brands(request):
+    category = request.GET.get('category')
+    brands = list(Product.objects.filter(category=category)
+                  .exclude(brand__isnull=True)
+                  .exclude(brand__exact="")
+                  .values_list('brand', flat=True).distinct())
+    return JsonResponse({'brands': brands})
+
+from django.http import JsonResponse
+from .models import CarBrand
+
+def get_car_brands_by_category(request):
+    category = request.GET.get('category')
+    brands = CarBrand.objects.filter(category=category).values_list('name', flat=True)
+    return JsonResponse({'brands': list(brands)})

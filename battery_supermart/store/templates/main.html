@@ -74,7 +74,7 @@
 <section id="batteryfinder" class="py-10 bg-light text-center" data-aos="fade-up">
   <div class="container-fluid">
     <h1 class="display-5 fw-bold">Find the Right Battery for Your Car</h1>
-    <p class="lead">Search by car brand or battery model</p>
+    <p class="lead">Search by brand or battery model</p>
 
     <form method="GET" action="{% url 'products' %}">
   <!-- First Row: Dropdowns -->
@@ -102,7 +102,7 @@
     <!-- Car Make -->
     <div class="col-md-3 make-field">
       <select class="form-select" name="make">
-        <option value="">Select Car Make</option>
+        <option value="">Select Make</option>
         {% for car_brand in car_brands %}
           <option value="{{ car_brand.name }}" {% if car_brand.name == request.GET.make %}selected{% endif %}>{{ car_brand.name }}</option>
         {% endfor %}
@@ -112,7 +112,7 @@
     <!-- Car Model -->
     <div class="col-md-3 model-field">
       <select class="form-select" name="model">
-        <option value="">Select Car Model</option>
+        <option value="">Select Model</option>
         {% for car_model in car_models %}
           <option value="{{ car_model.name }}" {% if car_model.name == request.GET.model %}selected{% endif %}>{{ car_model.name }}</option>
         {% endfor %}
@@ -140,77 +140,135 @@
 
     <!-- JavaScript for dynamic field logic -->
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const categorySelect = document.getElementById("categorySelect");
-        const makeField = document.querySelector(".make-field");
-        const modelField = document.querySelector(".model-field");
-        const brandField = document.querySelector(".brand-field");
-        const capacityField = document.querySelector(".capacity-field");
+document.addEventListener("DOMContentLoaded", function () {
+  const categorySelect = document.getElementById("categorySelect");
+  const makeSelect = document.querySelector("select[name='make']");
+  const modelSelect = document.querySelector("select[name='model']");
+  const capacitySelect = document.querySelector("select[name='capacity']");
+  const brandSelect = document.querySelector("select[name='brand']");
 
-        const makeSelect = document.querySelector("select[name='make']");
-        const modelSelect = document.querySelector("select[name='model']");
+  const makeField = document.querySelector(".make-field");
+  const modelField = document.querySelector(".model-field");
+  const brandField = document.querySelector(".brand-field");
+  const capacityField = document.querySelector(".capacity-field");
 
-        function updateFieldVisibility() {
-          const selectedCategory = categorySelect.value;
+  function updateFieldVisibility() {
+    const selectedCategory = categorySelect.value;
 
-          // Hide all first
-          makeField.style.display = "none";
-          modelField.style.display = "none";
-          brandField.style.display = "none";
-          capacityField.style.display = "none";
+    // Reset visibility
+    makeField.style.display = "none";
+    modelField.style.display = "none";
+    brandField.style.display = "none";
+    capacityField.style.display = "none";
 
-          // Vehicle-related categories
-          if (["2_wheeler", "4_wheeler", "truck","Car"].includes(selectedCategory)) {
-            makeField.style.display = "block";
-            modelField.style.display = "block";
-            brandField.style.display = "block";
-          }
-          // Inverter and UPS categories
-          else if (["computer_ups", "inverter_combo", "inverter_ups", "inverter_batteries", "smf_vrla", "lithium_ion", "inverter_lithium"].includes(selectedCategory)) {
-            capacityField.style.display = "block";
-            brandField.style.display = "block";
-          }
-        }
+    if (["Car", "2_wheeler", "truck"].includes(selectedCategory)) {
+      makeField.style.display = "block";
+      modelField.style.display = "block";
+      brandField.style.display = "block";
+    } else if (
+      [
+        "computer_ups",
+        "inverter_combo",
+        "inverter_ups",
+        "inverter_batteries",
+        "smf_vrla",
+        "lithium_ion",
+        "inverter_lithium",
+      ].includes(selectedCategory)
+    ) {
+      capacityField.style.display = "block";
+      brandField.style.display = "block";
+    }
+  }
 
-        // Run once on load
-        updateFieldVisibility();
+  // Run on load
+  updateFieldVisibility();
 
-        // Update on change
-        categorySelect.addEventListener("change", () => {
-          updateFieldVisibility();
-          // Reset make and model
-          makeSelect.value = "";
-          modelSelect.innerHTML = '<option value="">Select Car Make First</option>';
-          modelSelect.disabled = true;
+  // On category change
+  categorySelect.addEventListener("change", function () {
+    const selectedCategory = categorySelect.value;
+    updateFieldVisibility();
+
+    // Reset dropdowns
+    makeSelect.innerHTML = '<option value="">Select Make</option>';
+    modelSelect.innerHTML = '<option value="">Select Model</option>';
+    capacitySelect.innerHTML = '<option value="">Select Capacity</option>';
+    brandSelect.innerHTML = '<option value="">Select Battery Brand</option>';
+
+    // Fetch car makes
+    if (["Car", "2_wheeler", "truck"].includes(selectedCategory)) {
+      fetch(`/ajax/get-car-brands/?category=${encodeURIComponent(selectedCategory)}`)
+        .then((response) => response.json())
+        .then((data) => {
+          data.brands.forEach((brand) => {
+            const option = document.createElement("option");
+            option.value = brand;
+            option.textContent = brand;
+            makeSelect.appendChild(option);
+          });
         });
+    }
 
-        // Populate models via AJAX
-        makeSelect.addEventListener("change", function () {
-          const selectedMake = this.value;
+    // Fetch capacity options for inverter/UPS
+    if (
+      [
+        "computer_ups",
+        "inverter_combo",
+        "inverter_ups",
+        "inverter_batteries",
+        "smf_vrla",
+        "lithium_ion",
+        "inverter_lithium",
+      ].includes(selectedCategory)
+    ) {
+      fetch(`/ajax/get-capacities/?category=${encodeURIComponent(selectedCategory)}`)
+        .then((response) => response.json())
+        .then((data) => {
+          data.capacities.forEach((cap) => {
+            const option = document.createElement("option");
+            option.value = cap;
+            option.textContent = cap;
+            capacitySelect.appendChild(option);
+          });
+        });
+    }
 
-          if (!selectedMake) {
-            modelSelect.disabled = true;
-            modelSelect.innerHTML = '<option value="">Select Car Make First</option>';
-            return;
-          }
-
-          modelSelect.disabled = false;
-          modelSelect.innerHTML = '<option value="">Loading...</option>';
-
-          fetch(`/ajax/get-car-models/?make=${encodeURIComponent(selectedMake)}`)
-            .then(response => response.json())
-            .then(data => {
-              modelSelect.innerHTML = '<option value="">Select Car Model</option>';
-              data.models.forEach(model => {
-                const option = document.createElement("option");
-                option.value = model.name;
-                option.textContent = model.name;
-                modelSelect.appendChild(option);
-              });
-            });
+    // Fetch brands for all categories
+    fetch(`/ajax/get-brands/?category=${encodeURIComponent(selectedCategory)}`)
+      .then((response) => response.json())
+      .then((data) => {
+        data.brands.forEach((brand) => {
+          const option = document.createElement("option");
+          option.value = brand;
+          option.textContent = brand;
+          brandSelect.appendChild(option);
         });
       });
-    </script>
+  });
+
+  // On make change: fetch models
+  makeSelect.addEventListener("change", function () {
+    const selectedMake = this.value;
+    modelSelect.disabled = true;
+    modelSelect.innerHTML = '<option value="">Loading...</option>';
+
+    fetch(`/ajax/get-car-models/?make=${encodeURIComponent(selectedMake)}`)
+      .then((response) => response.json())
+      .then((data) => {
+        modelSelect.disabled = false;
+        modelSelect.innerHTML = '<option value="">Select Model</option>';
+        data.models.forEach((model) => {
+          const option = document.createElement("option");
+          option.value = model.name;
+          option.textContent = model.name;
+          modelSelect.appendChild(option);
+        });
+      });
+  });
+});
+</script>
+
+
   </div>
 </section>
 
