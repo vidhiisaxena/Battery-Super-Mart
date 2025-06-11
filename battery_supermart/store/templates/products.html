@@ -181,7 +181,7 @@ body .dark-mode .contact-card a {
   <option value="inverter_lithium" {% if request.GET.category == "inverter_lithium" %}selected{% endif %}>Inverter + Lithium Ion Batteries</option>
 </select>
 
-    <!-- CATEGORY SELECT -->
+    {% comment %} <!-- CATEGORY SELECT -->
      <!-- Car Make -->
 <div id="car-make-section" style="display: none;">
     <label for="make">Make</label>
@@ -213,7 +213,7 @@ body .dark-mode .contact-card a {
       <option value="{{ capacity }}" {% if selected_capacity == capacity %}selected{% endif %}>{{ capacity }}</option>
     {% endfor %}
     </select>
-</div>
+</div> {% endcomment %}
 
 {% comment %} <label for="category-filter">Select Category:</label>
 <select id="category-filter" name="category" class="form-select mb-3" onchange="toggleFilterFields(); this.form.submit();">
@@ -400,16 +400,20 @@ document.addEventListener("DOMContentLoaded", function () {
   const modelSection = document.getElementById("car-model-section");
   const capacitySection = document.getElementById("capacity-section");
 
-  function updateFieldVisibility() {
-    const selectedCategory = categorySelect.value;
+  const selectedCategory = categorySelect.value;
+  const selectedMake = "{{ request.GET.make|escapejs }}";
+  const selectedModel = "{{ request.GET.model|escapejs }}";
+  const selectedCapacity = "{{ request.GET.capacity|escapejs }}";
+  const selectedBrand = "{{ request.GET.brand|escapejs }}";
 
+  function updateFieldVisibility() {
     // Hide all optional fields first
     makeSection.style.display = "none";
     modelSection.style.display = "none";
     capacitySection.style.display = "none";
 
     // Show based on selected category
-    if (["Car", "2_wheeler", "truck"].includes(selectedCategory)) {
+    if (["Car", "2_wheeler", "truck"].includes(categorySelect.value)) {
       makeSection.style.display = "block";
       modelSection.style.display = "block";
     } else if (
@@ -421,7 +425,7 @@ document.addEventListener("DOMContentLoaded", function () {
         "smf_vrla",
         "lithium_ion",
         "inverter_lithium"
-      ].includes(selectedCategory)
+      ].includes(categorySelect.value)
     ) {
       capacitySection.style.display = "block";
     }
@@ -456,7 +460,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Fetch capacities for inverter categories
+    // Fetch capacities
     if (
       [
         "computer_ups",
@@ -480,7 +484,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Optional: fetch relevant brands
+    // Fetch brands
     fetch(`/ajax/get-brands/?category=${encodeURIComponent(selectedCategory)}`)
       .then((response) => response.json())
       .then((data) => {
@@ -494,7 +498,7 @@ document.addEventListener("DOMContentLoaded", function () {
       });
   });
 
-  // On make change: fetch models
+  // On make change
   makeSelect.addEventListener("change", function () {
     const selectedMake = this.value;
     modelSelect.innerHTML = '<option value="">Loading...</option>';
@@ -513,8 +517,82 @@ document.addEventListener("DOMContentLoaded", function () {
         });
       });
   });
+
+  // 🧠 Restore selected filters on page load
+  if (["Car", "2_wheeler", "truck"].includes(selectedCategory) && selectedMake) {
+    fetch(`/ajax/get-car-brands/?category=${encodeURIComponent(selectedCategory)}`)
+      .then(response => response.json())
+      .then(data => {
+        makeSelect.innerHTML = '<option value="">-- Select Make --</option>';
+        data.brands.forEach(brand => {
+          const option = document.createElement("option");
+          option.value = brand;
+          option.textContent = brand;
+          if (brand === selectedMake) option.selected = true;
+          makeSelect.appendChild(option);
+        });
+
+        // Load models if make is selected
+        if (selectedModel) {
+          fetch(`/ajax/get-car-models/?make=${encodeURIComponent(selectedMake)}`)
+            .then(response => response.json())
+            .then(data => {
+              modelSelect.innerHTML = '<option value="">-- Select Model --</option>';
+              data.models.forEach(model => {
+                const option = document.createElement("option");
+                option.value = model.name;
+                option.textContent = model.name;
+                if (model.name === selectedModel) option.selected = true;
+                modelSelect.appendChild(option);
+              });
+              modelSelect.disabled = false;
+            });
+        }
+      });
+  }
+
+  if (
+    [
+      "computer_ups",
+      "inverter_combo",
+      "inverter_ups",
+      "inverter_batteries",
+      "smf_vrla",
+      "lithium_ion",
+      "inverter_lithium"
+    ].includes(selectedCategory) && selectedCapacity
+  ) {
+    fetch(`/ajax/get-capacities/?category=${encodeURIComponent(selectedCategory)}`)
+      .then(response => response.json())
+      .then(data => {
+        capacitySelect.innerHTML = '<option value="">Select Capacity</option>';
+        data.capacities.forEach(cap => {
+          const option = document.createElement("option");
+          option.value = cap;
+          option.textContent = cap;
+          if (cap === selectedCapacity) option.selected = true;
+          capacitySelect.appendChild(option);
+        });
+      });
+  }
+
+  if (selectedBrand) {
+    fetch(`/ajax/get-brands/?category=${encodeURIComponent(selectedCategory)}`)
+      .then(response => response.json())
+      .then(data => {
+        brandSelect.innerHTML = '<option value="">All Brands</option>';
+        data.brands.forEach(brand => {
+          const option = document.createElement("option");
+          option.value = brand;
+          option.textContent = brand;
+          if (brand === selectedBrand) option.selected = true;
+          brandSelect.appendChild(option);
+        });
+      });
+  }
 });
 </script>
+
 
 <!-- Footer -->
 <footer class="bg-dark text-white py-4 mt-5">
