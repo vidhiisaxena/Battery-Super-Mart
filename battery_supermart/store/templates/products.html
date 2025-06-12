@@ -257,7 +257,7 @@ body .dark-mode .contact-card a {
 <!-- Car Make -->
 <div id="car-make-section" style="display: none;">
     <label for="make">Car Make</label>
-    <select name="make" id="make" class="form-control">
+    <select name="make" id="make" class="form-control" data-selected="{{ request.GET.make }}">
         <option value="">-- Select Make --</option>
         {% for brand in car_brands %}
             <option value="{{ brand.name }}" {% if request.GET.make == brand.name %}selected{% endif %}>{{ brand.name }}</option>
@@ -268,7 +268,7 @@ body .dark-mode .contact-card a {
 <!-- Car Model -->
 <div id="car-model-section" style="display: none;">
     <label for="model">Car Model</label>
-    <select name="model" id="model" class="form-control">
+    <select name="model" id="model" class="form-control" data-selected="{{ request.GET.model }}">
         <option value="">-- Select Model --</option>
         {% for model in car_models %}
             <option value="{{ model.name }}" {% if request.GET.model == model.name %}selected{% endif %}>{{ model.name }}</option>
@@ -279,7 +279,7 @@ body .dark-mode .contact-card a {
 <!-- Capacity -->
 <div id="capacity-section" style="display: none;">
     <label for="capacity">Capacity</label>
-    <select name="capacity" id="capacity" class="form-control">
+    <select name="capacity" id="capacity" class="form-control" data-selected="{{ request.GET.capacity }}">
         <option value="">-- Select Capacity --</option>
         {% for capacity in capacities %}
             <option value="{{ capacity }}" {% if capacity == request.GET.capacity %}selected{% endif %}>{{ capacity }}</option>
@@ -290,7 +290,7 @@ body .dark-mode .contact-card a {
 
 <!-- BRAND FILTER (Always visible) -->
 <label for="brand">Battery Brand:</label>
-<select name="brand" id="brand" class="form-select mb-3" onchange="this.form.submit()">
+<select name="brand" id="brand" class="form-select mb-3" class="form-control" data-selected="{{ request.GET.brand }}"">
   <option value="">All Brands</option>
   {% for brand in brands %}
     <option value="{{ brand }}" {% if brand == selected_brand %}selected{% endif %}>{{ brand }}</option>
@@ -350,7 +350,7 @@ body .dark-mode .contact-card a {
 <script>
   // Load car models for selected brand
   function updateCarModels() {
-    const brand = document.getElementById('car-brand').value;
+    const brand = document.getElementById('make').value;
     const container = document.getElementById('car-models-container');
     container.innerHTML = '';  // Clear previous
 
