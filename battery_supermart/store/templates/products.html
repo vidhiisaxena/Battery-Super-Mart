@@ -256,7 +256,7 @@ body .dark-mode .contact-card a {
 </div> {% endcomment %}
 <!-- Car Make -->
 <div id="car-make-section" style="display: none;">
-    <label for="make">Car Make</label>
+    <label for="make">Make</label>
     <select name="make" id="make" class="form-control" data-selected="{{ request.GET.make }}">
         <option value="">-- Select Make --</option>
         {% for brand in car_brands %}
@@ -267,7 +267,7 @@ body .dark-mode .contact-card a {
 
 <!-- Car Model -->
 <div id="car-model-section" style="display: none;">
-    <label for="model">Car Model</label>
+    <label for="model">Model</label>
     <select name="model" id="model" class="form-control" data-selected="{{ request.GET.model }}">
         <option value="">-- Select Model --</option>
         {% for model in car_models %}
@@ -290,7 +290,7 @@ body .dark-mode .contact-card a {
 
 <!-- BRAND FILTER (Always visible) -->
 <label for="brand">Battery Brand:</label>
-<select name="brand" id="brand" class="form-select mb-3" class="form-control" data-selected="{{ request.GET.brand }}"">
+<select name="brand" id="brand" class="form-select mb-3" class="form-control" data-selected="{{ request.GET.brand }}">
   <option value="">All Brands</option>
   {% for brand in brands %}
     <option value="{{ brand }}" {% if brand == selected_brand %}selected{% endif %}>{{ brand }}</option>
@@ -385,7 +385,7 @@ body .dark-mode .contact-card a {
 
   // Run on page load
   document.addEventListener('DOMContentLoaded', function () {
-    toggleFilterFields();
+    updateFieldVisibility();
   });
 </script>
 <script>
