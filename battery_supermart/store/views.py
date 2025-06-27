@@ -66,16 +66,13 @@ def products_view(request):
     # Apply category-based filtering
     if selected_category:
         products = products.filter(category=selected_category)
-
         if selected_brand:
             products = products.filter(brand=selected_brand)
-
         if selected_category in ['2_wheeler', 'Car', 'truck']:
             if selected_make:
                 products = products.filter(recommended_for__brand__name=selected_make)
             if selected_model:
                 products = products.filter(recommended_for__name=selected_model)
-
         elif selected_category in [
             'computer_ups', 'inverter_combo', 'inverter_ups', 'inverter_batteries',
             'smf_vrla', 'lithium_ion', 'inverter_lithium'
@@ -100,7 +97,10 @@ def products_view(request):
             Q(model__icontains=query) |
             Q(recommended_for__brand__name__icontains=query) |
             Q(recommended_for__name__icontains=query)
-        ).distinct()
+        )
+
+    # Remove duplicates caused by joins
+    products = products.distinct()
 
     # Filter values to be displayed in UI
     brands = Product.objects.values_list('brand', flat=True).distinct()
